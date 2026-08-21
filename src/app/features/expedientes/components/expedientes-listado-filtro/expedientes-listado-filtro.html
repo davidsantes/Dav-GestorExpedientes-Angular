@@ -1,0 +1,96 @@
+<section class="filtros">
+  <div class="filtros-header">
+    <div>
+      <p class="eyebrow">Gestión documental</p>
+      <h1>Buscar expedientes</h1>
+    </div>
+  </div>
+
+  <form class="filtros-form" (ngSubmit)="buscar()">
+    <div class="campo campo-expediente">
+      <label for="numero-expediente">Nº expediente</label>
+      <input
+        id="numero-expediente"
+        name="numero"
+        type="search"
+        [(ngModel)]="filtro.numero"
+        placeholder="Ej.: EXP-2026-0001"
+      >
+    </div>
+
+    <div class="campo">
+      <label for="estado">Estado</label>
+
+      <select
+        id="estado"
+        name="estado"
+        [(ngModel)]="filtro.estado"
+      >
+        <option value="">Todos los estados</option>
+
+        @for (estado of estados(); track estado) {
+          <option [value]="estado">
+            {{ estado }}
+          </option>
+        }
+      </select>
+    </div>
+
+    <div class="campo">
+      <label for="prioridad">Prioridad</label>
+
+      <select
+        id="prioridad"
+        name="prioridad"
+        [(ngModel)]="filtro.prioridad"
+      >
+        <option value="">Todas las prioridades</option>
+
+        @for (prioridad of prioridades(); track prioridad) {
+          <option [value]="prioridad">
+            {{ prioridad }}
+          </option>
+        }
+      </select>
+    </div>
+
+    <div class="campo">
+      <label for="fecha-inicio">Fecha inicio</label>
+
+      <input
+        id="fecha-inicio"
+        name="fechaInicio"
+        type="date"
+        [(ngModel)]="filtro.fechaInicio"
+      >
+    </div>
+
+    <div class="campo">
+      <label for="fecha-fin">Fecha fin</label>
+
+      <input
+        id="fecha-fin"
+        name="fechaFin"
+        type="date"
+        [(ngModel)]="filtro.fechaFin"
+      >
+    </div>
+
+    <div class="acciones">
+      <button
+        type="button"
+        class="secondary-button"
+        (click)="limpiar()"
+      >
+        Limpiar
+      </button>
+
+      <button
+        type="submit"
+        class="primary-button"
+      >
+        Buscar
+      </button>
+    </div>
+  </form>
+</section>

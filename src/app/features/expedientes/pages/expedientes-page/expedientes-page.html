@@ -1,0 +1,10 @@
+<app-expedientes-listado-filtro
+  [estados]="estados"
+  [prioridades]="prioridades"
+  (filtrosAplicados)="aplicarFiltros($event)">
+</app-expedientes-listado-filtro>
+
+<app-expedientes-listado
+  [expedientes]="expedientes()"
+  (expedienteSeleccionado)="seleccionarExpediente($event)">
+</app-expedientes-listado>

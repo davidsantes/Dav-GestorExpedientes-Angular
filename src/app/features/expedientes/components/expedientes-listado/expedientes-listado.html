@@ -1,0 +1,84 @@
+<section class="resultados">
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>Nº expediente</th>
+          <th>Título</th>
+          <th>Estado</th>
+          <th>Prioridad</th>
+          <th>Fecha alta</th>
+          <th>Opciones</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        @for (expediente of expedientes; track expediente.numero) {
+          <tr>
+            <td class="numero">{{ expediente.numero }}</td>
+            <td>{{ expediente.titulo }}</td>
+            <td>
+              <span
+                class="badge estado"
+                [class.pendiente]="expediente.estado === 'pendiente'"
+                [class.tramite]="expediente.estado === 'tramite'"
+                [class.finalizado]="expediente.estado === 'finalizado'"
+                [class.archivado]="expediente.estado === 'archivado'"
+              >
+                {{ expediente.estado }}
+              </span>
+            </td>
+            <td>
+              <span
+                class="badge prioridad"
+                [class.alta]="expediente.prioridad === 'alta'"
+                [class.media]="expediente.prioridad === 'media'"
+                [class.baja]="expediente.prioridad === 'baja'"
+              >
+                {{ expediente.prioridad }}
+              </span>
+            </td>
+            <td>{{ expediente.fechaAlta }}</td>
+            <td>
+              <button
+                type="button"
+                class="edit-button"
+                (click)="seleccionar(expediente)"
+              >
+                Editar
+              </button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <div class="table-footer">
+    <p>Resultado 1-10 de 56 elementos</p>
+
+    <div class="pagination">
+      <span>Página 1 de 6</span>
+      <button
+        type="button"
+        aria-label="Página anterior"
+        (click)="irAPaginaAnterior()">
+        &lsaquo;
+      </button>
+      <button
+        type="button"
+        class="active"
+        (click)="seleccionarPagina(1)">
+        1
+      </button>
+      <button type="button" (click)="seleccionarPagina(2)">2</button>
+      <button type="button" (click)="seleccionarPagina(3)">3</button>
+      <button
+        type="button"
+        aria-label="Página siguiente"
+        (click)="irAPaginaSiguiente()">
+        &rsaquo;
+      </button>
+    </div>
+  </div>
+</section>

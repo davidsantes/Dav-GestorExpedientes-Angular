@@ -1,0 +1,69 @@
+@if (expediente().numero) {
+  <section class="detalle-expediente" aria-labelledby="detalle-titulo">
+    <div class="detalle-header">
+      <div>
+        <p class="eyebrow">Detalle del expediente</p>
+        <h1 id="detalle-titulo">{{ expediente().titulo }}</h1>
+        <p class="numero-expediente">{{ expediente().numero }}</p>
+      </div>
+
+      <button class="back-button" type="button" (click)="volver()">
+        <span aria-hidden="true">&larr;</span>
+        Volver al listado
+      </button>
+    </div>
+
+    <div class="detalle-contenido">
+      <div class="resumen">
+        <p class="section-label">Estado actual</p>
+        <div class="estado-principal">
+          <span
+            class="badge estado"
+            [class.pendiente]="expediente().estado === 'pendiente'"
+            [class.tramite]="expediente().estado === 'tramite'"
+            [class.finalizado]="expediente().estado === 'finalizado'"
+            [class.archivado]="expediente().estado === 'archivado'">
+            {{ expediente().estado }}
+          </span>
+          <span class="estado-ayuda">Expediente en seguimiento</span>
+        </div>
+      </div>
+
+      <div class="informacion">
+        <p class="section-label">Información del expediente</p>
+        <dl>
+          <div>
+            <dt>Número</dt>
+            <dd>{{ expediente().numero }}</dd>
+          </div>
+          <div>
+            <dt>Prioridad</dt>
+            <dd>
+              <span
+                class="badge prioridad"
+                [class.alta]="expediente().prioridad === 'alta'"
+                [class.media]="expediente().prioridad === 'media'"
+                [class.baja]="expediente().prioridad === 'baja'">
+                {{ expediente().prioridad }}
+              </span>
+            </dd>
+          </div>
+          <div>
+            <dt>Fecha de alta</dt>
+            <dd>{{ expediente().fechaAlta }}</dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+  </section>
+} @else {
+  <section class="detalle-vacio" aria-live="polite">
+    <p class="eyebrow">Expedientes</p>
+    <h1>No se encontró el expediente</h1>
+    <p>El expediente solicitado no existe o ya no está disponible.</p>
+    <button class="back-button" type="button" (click)="volver()">
+      <span aria-hidden="true">&larr;</span>
+      Volver al listado
+    </button>
+  </section>
+}

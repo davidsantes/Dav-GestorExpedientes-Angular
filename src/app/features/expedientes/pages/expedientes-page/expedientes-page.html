@@ -4,7 +4,13 @@
   (filtrosAplicados)="aplicarFiltros($event)">
 </app-expedientes-listado-filtro>
 
-<app-expedientes-listado
-  [expedientes]="expedientes()"
-  (expedienteSeleccionado)="seleccionarExpediente($event)">
-</app-expedientes-listado>
+@if (recursoExpedientes.isLoading()) {
+  <section class="estado-carga" aria-live="polite">
+    Cargando expedientes...
+  </section>
+} @else {
+  <app-expedientes-listado
+    [expedientes]="expedientes()"
+    (expedienteSeleccionado)="seleccionarExpediente($event)">
+  </app-expedientes-listado>
+}

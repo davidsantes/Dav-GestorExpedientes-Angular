@@ -15,9 +15,9 @@
       <tbody>
         @for (expediente of expedientes; track expediente.numero) {
           <tr>
-            <td class="numero">{{ expediente.numero }}</td>
-            <td>{{ expediente.titulo }}</td>
-            <td>
+            <td class="numero" data-label="Nº expediente">{{ expediente.numero }}</td>
+            <td data-label="Título">{{ expediente.titulo }}</td>
+            <td data-label="Estado">
               <span
                 class="badge estado"
                 [class.pendiente]="expediente.estado === 'pendiente'"
@@ -28,7 +28,7 @@
                 {{ expediente.estado }}
               </span>
             </td>
-            <td>
+            <td data-label="Prioridad">
               <span
                 class="badge prioridad"
                 [class.alta]="expediente.prioridad === 'alta'"
@@ -38,8 +38,8 @@
                 {{ expediente.prioridad }}
               </span>
             </td>
-            <td>{{ expediente.fechaAlta }}</td>
-            <td>
+            <td data-label="Fecha alta">{{ expediente.fechaAlta }}</td>
+            <td data-label="Opciones">
               <button
                 type="button"
                 class="edit-button"

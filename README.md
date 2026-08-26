@@ -6,6 +6,7 @@ Proyecto didáctico para aprender Angular 22 con una aplicación sencilla de ges
 
 - [Angular](https://angular.dev/)
 - [Inyeccion de dependencias en Angular](https://angular.dev/essentials/dependency-injection)
+- [RxJS](https://rxjs.dev/guide/overview)
 - [TypeScript](https://www.typescriptlang.org/)
 - [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/intro.html)
 
@@ -370,6 +371,8 @@ export class ExpedientesService {
 Aunque la URL sea `/api/expedientes`, no hay un servidor real detrás. La petición se resuelve mediante el interceptor mock.
 
 `HttpClient` devuelve un `Observable`. Un observable representa una fuente de datos que puede emitir valores de forma asíncrona. En esta página, ese `Observable` se integra directamente con `rxResource()`.
+
+En Angular, los `Observable` provienen de RxJS y son la base del flujo reactivo de peticiones HTTP, transformaciones y composición de datos.
 
 ### 8. 🛡️ Interceptores HTTP
 

@@ -5,7 +5,7 @@ Proyecto didáctico para aprender Angular 22 con una aplicación sencilla de ges
 📚 Recursos oficiales:
 
 - [Angular](https://angular.dev/)
-- [Inyeccion de dependencias en Angular](https://angular.dev/essentials/dependency-injection)
+- [Inyección de dependencias en Angular](https://angular.dev/essentials/dependency-injection)
 - [RxJS](https://rxjs.dev/guide/overview)
 - [TypeScript](https://www.typescriptlang.org/)
 - [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/intro.html)
@@ -21,25 +21,30 @@ La aplicación incluye:
 - carga del listado mediante un servicio HTTP
 - interceptor que simula una API de expedientes sin backend real
 - estado de carga mientras se resuelve la consulta del listado
-- navegacion al detalle de cada expediente
+- navegación al detalle de cada expediente
 - paginación visual simple en el listado
 - página 404 para rutas no existentes
 - routing con lazy loading para la feature de expedientes
 
 ## 🏗️ Arquitectura del proyecto
 
-La estructura esta organizada por responsabilidades:
+La estructura está organizada por responsabilidades:
 
 - `src/app/` contiene la configuración principal de la aplicación.
+- `src/app/app.config.ts` y `src/app/app.routes.ts` contienen la configuración global de proveedores y rutas.
 - `src/app/core/` contiene piezas comunes como header, footer, página 404 e interceptores.
 - `src/app/core/interceptors/` contiene el interceptor mock de API.
-- `src/app/features/login/` contiene el componente de login.
+- `src/app/features/login/` contiene la feature de login.
+- `src/app/features/login/components/` contiene el componente de login.
 - `src/app/features/expedientes/` contiene la feature de expedientes.
+- `src/app/features/expedientes/expedientes.routes.ts` define las rutas de listado y detalle de la feature.
 - `src/app/features/expedientes/components/` contiene componentes reutilizables de la feature.
 - `src/app/features/expedientes/pages/` contiene las páginas de listado y detalle.
 - `src/app/features/expedientes/services/` contiene servicios de acceso a datos.
 - `src/app/features/expedientes/models/` contiene interfaces y tipos del dominio.
 - `src/app/features/expedientes/data/` contiene el dataset mock compartido por el interceptor y la página de detalle.
+- `src/app/shared/` contiene elementos compartidos entre features.
+- `src/app/shared/components/listado-paginacion/` contiene el componente reutilizable de paginación.
 
 ## 🟦 Fundamentos de TypeScript
 
@@ -52,7 +57,7 @@ Los tipos más habituales en este proyecto son:
 - primitivos: `string`, `number` y `boolean`
 - arrays: `Expediente[]`
 - valores opcionales: `string | undefined`
-- valores que pueden estar vacios: `string | null`
+- valores que pueden estar vacíos: `string | null`
 
 Si no se escribe el tipo, TypeScript intenta inferirlo a partir del valor inicial.
 
@@ -66,7 +71,7 @@ function buscarPorNumero(numero: string): Expediente | undefined {
 
 ### Types e interfaces
 
-Un `type` puede crear alias y expresar uniones. Por ejemplo, los estados validos del dominio estan definidos como un tipo union:
+Un `type` puede crear alias y expresar uniones. Por ejemplo, los estados válidos del dominio están definidos como un tipo unión:
 
 ```ts
 export type EstadoExpediente =
@@ -90,9 +95,9 @@ export interface Expediente {
 
 Las interfaces y los tipos sirven durante la compilación; no existen como objetos en tiempo de ejecución.
 
-### Tipos genericos
+### Tipos genéricos
 
-Los genericos permiten reutilizar una estructura con distintos tipos de datos:
+Los genéricos permiten reutilizar una estructura con distintos tipos de datos:
 
 ```ts
 interface Page<T> {
@@ -168,11 +173,11 @@ Ejemplo en `src/app/features/expedientes/pages/expedientes-page/expedientes-page
 export class ExpedientesPage {}
 ```
 
-Esto evita depender de un modulo principal para declarar componentes.
+Esto evita depender de un módulo principal para declarar componentes.
 
 ### 2. 🧭 Routing y lazy loading
 
-El enrutado principal esta en `src/app/app.routes.ts`.
+El enrutado principal está en `src/app/app.routes.ts`.
 
 ```ts
 export const routes: Routes = [
@@ -196,7 +201,7 @@ Además, se usa `withComponentInputBinding()` en `src/app/app.config.ts`. Gracia
 #### Parámetros de ruta y query params
 
 - Los parámetros de ruta identifican un recurso: `/expedientes/EXP-2026-0001`.
-- Los query params indican como consultar o presentar los datos: `/expedientes?estado=tramite&prioridad=alta`.
+- Los query params indican cómo consultar o presentar los datos: `/expedientes?estado=tramite&prioridad=alta`.
 
 En esta aplicación, los filtros se guardan como query params. Por eso una URL con filtros se puede copiar, recargar y volver a abrir conservando la misma búsqueda.
 
@@ -308,7 +313,7 @@ Esto permite que el usuario vea feedback cuando se aplica una búsqueda o cambia
 
 ### 7. 🌐 Servicios HTTP
 
-El acceso al listado esta encapsulado en `src/app/features/expedientes/services/expedientes-service.ts`.
+El acceso al listado está encapsulado en `src/app/features/expedientes/services/expedientes-service.ts`.
 
 El servicio usa el decorador `@Service()` de Angular 22, `inject(HttpClient)` y devuelve `Observable`:
 
@@ -376,7 +381,7 @@ En Angular, los `Observable` provienen de RxJS y son la base del flujo reactivo 
 
 ### 8. 🛡️ Interceptores HTTP
 
-El interceptor esta en `src/app/core/interceptors/mock-api-interceptor-interceptor.ts`.
+El interceptor está en `src/app/core/interceptors/mock-api-interceptor-interceptor.ts`.
 
 Su función es interceptar peticiones HTTP hechas por `HttpClient` y devolver datos mock cuando la URL coincide con `/api/expedientes`.
 
@@ -468,7 +473,7 @@ Angular permite enlazar el estado del componente con la vista en varias direccio
 
 #### One-way binding: del componente a la vista
 
-- Interpolacion: `{{ expediente.titulo }}`.
+- Interpolación: `{{ expediente.titulo }}`.
 - Property binding: `[expedientes]="expedientes()"`.
 - Binding de clases y estilos: `[class.tramite]="expediente.estado === 'tramite'"`.
 
@@ -492,9 +497,9 @@ El formulario de filtros usa `[(ngModel)]`:
 
 Para utilizarlo, el componente standalone importa `FormsModule`.
 
-### 12. 📝 Interpolacion y property binding
+### 12. 📝 Interpolación y property binding
 
-La interpolacion muestra datos en el HTML:
+La interpolación muestra datos en el HTML:
 
 ```html
 {{ expediente.titulo }}
@@ -512,7 +517,7 @@ El property binding enlaza valores del componente con propiedades o clases:
 </span>
 ```
 
-### 13. 🖱️ Event binding y navegacion
+### 13. 🖱️ Event binding y navegación
 
 El event binding permite reaccionar a acciones del usuario:
 
@@ -563,7 +568,7 @@ Formulario de filtros
 -> app-listado-paginacion (Página X de Y)
 ```
 
-Este patron es util para aprender como separar responsabilidades:
+Este patrón es útil para aprender cómo separar responsabilidades:
 
 - el formulario solo recoge filtros
 - la página coordina navegación y estado
@@ -573,7 +578,7 @@ Este patron es util para aprender como separar responsabilidades:
 
 ## 🧾 Modelo de expediente
 
-El modelo principal esta en `src/app/features/expedientes/models/expediente.interface.ts`:
+El modelo principal está en `src/app/features/expedientes/models/expediente.interface.ts`:
 
 ```ts
 export interface Expediente {
@@ -585,7 +590,7 @@ export interface Expediente {
 }
 ```
 
-Los estados disponibles estan en `estado-expediente.type.ts`:
+Los estados disponibles están en `estado-expediente.type.ts`:
 
 ```ts
 export type EstadoExpediente =
@@ -595,7 +600,7 @@ export type EstadoExpediente =
   | 'archivado';
 ```
 
-Las prioridades disponibles estan en `prioridad-expediente.type.ts`:
+Las prioridades disponibles están en `prioridad-expediente.type.ts`:
 
 ```ts
 export type PrioridadExpediente =
@@ -604,9 +609,9 @@ export type PrioridadExpediente =
   | 'baja';
 ```
 
-## ▶️ Como arrancar el proyecto
+## ▶️ Cómo arrancar el proyecto
 
-Desde la raiz del proyecto:
+Desde la raíz del proyecto:
 
 ```bash
 npm install
@@ -626,9 +631,9 @@ Luego abre la aplicación en:
 http://localhost:4200/
 ```
 
-Si el puerto `4200` esta ocupado, Angular preguntara si quieres usar otro puerto.
+Si el puerto `4200` está ocupado, Angular preguntará si quieres usar otro puerto.
 
-## 🛠️ Scripts utiles
+## 🛠️ Scripts útiles
 
 ```bash
 npm start
@@ -653,7 +658,7 @@ npm.cmd start
 
 ## 💡 Notas didácticas importantes
 
-- `@Service()` es el decorador usado por Angular 22 para servicios auto-provistos.
+- `@Service()` es el decorador usado por Angular 22 para servicios autoprovistos.
 - `HttpClient` no funciona por sí solo: debe registrarse con `provideHttpClient()`.
 - Los interceptores funcionales se registran con `withInterceptors([...])`.
 - La URL `/api/expedientes` es ficticia: existe para que el servicio parezca real mientras el interceptor devuelve datos mock.

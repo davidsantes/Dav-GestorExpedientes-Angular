@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router, provideRouter } from '@angular/router';
 
 import { routes } from '../../../../app.routes';
+import { EXPEDIENTES_MOCK } from '../../data/expedientes.mock';
 import { ExpedientesPage } from './expedientes-page';
 
 describe('ExpedientesPage', () => {
@@ -26,7 +27,9 @@ describe('ExpedientesPage', () => {
   it('should show all expedientes without filters', () => {
     fixture.detectChanges();
 
-    expect(fixture.nativeElement.querySelectorAll('tbody tr')).toHaveLength(3);
+    expect(fixture.nativeElement.querySelectorAll('tbody tr')).toHaveLength(
+      EXPEDIENTES_MOCK.length,
+    );
   });
 
   it('should navigate to the selected expediente detail', async () => {

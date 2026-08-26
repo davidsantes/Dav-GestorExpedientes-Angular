@@ -13,4 +13,11 @@
     [expedientes]="expedientes()"
     (expedienteSeleccionado)="seleccionarExpediente($event)">
   </app-expedientes-listado>
+  <app-listado-paginacion
+    [itemsPorPagina]="resultadosPorPagina"
+    [totalItems]="respuestaExpedientes()?.total ?? 0"
+    [itemsPrevios]="respuestaExpedientes()?.skip ?? 0"
+    (cambioPagina)="cambioPagina($event)"
+    >
+  </app-listado-paginacion>
 }

@@ -2,40 +2,17 @@ import {
   HttpInterceptorFn,
   HttpResponse
 } from '@angular/common/http';
-import type { Expediente } from '../../features/expedientes/models/expediente.interface';
+import type { ExpedientesListadoRespuesta } from '../../features/expedientes/models/expedientes-listado-respuesta.interface';
+import { EXPEDIENTES_MOCK } from '../../features/expedientes/data/expedientes.mock';
 import { of } from 'rxjs';
 
-const EXPEDIENTES_MOCK: Expediente[] = [
-  {
-    numero: 'EXP-2026-0001',
-    titulo: 'Solicitud de licencia de actividad 1',
-    estado: 'tramite',
-    prioridad: 'alta',
-    fechaAlta: '2026-08-12'
-  },
-  {
-    numero: 'EXP-2026-0002',
-    titulo: 'Recurso administrativo',
-    estado: 'pendiente',
-    prioridad: 'media',
-    fechaAlta: '2026-08-10'
-  },
-  {
-    numero: 'EXP-2026-0003',
-    titulo: 'Autorización de obra menor',
-    estado: 'finalizado',
-    prioridad: 'baja',
-    fechaAlta: '2026-08-08'
-  },
-  {
-    numero: 'EXP-2026-0004',
-    titulo: 'Solicitud de licencia de actividad 2',
-    estado: 'tramite',
-    prioridad: 'media',
-    fechaAlta: '2025-08-12'
-  },
-];
-
+/**
+ * Intercepta llamadas HTTP de la API mock de expedientes.
+ * - GET /api/expedientes: aplica filtros (numero, estado, prioridad, fechas),
+ *   pagina con skip/limit y devuelve { data, total, skip, limit }.
+ * - GET /api/expedientes/:numero: devuelve el detalle del expediente o 404 si no existe.
+ * - Cualquier otra petición se delega al siguiente interceptor/handler.
+ */
 export const mockApiInterceptor: HttpInterceptorFn = (req, next) => {
 
   if (req.method === 'GET' && req.url === '/api/expedientes') {
@@ -44,6 +21,8 @@ export const mockApiInterceptor: HttpInterceptorFn = (req, next) => {
     const prioridad = req.params.get('prioridad') ?? '';
     const fechaInicio = req.params.get('fechaInicio') ?? '';
     const fechaFin = req.params.get('fechaFin') ?? '';
+    const skip = Number(req.params.get('skip') ?? 0);
+    const limit = Number(req.params.get('limit') ?? 30);
 
     const expedientes = EXPEDIENTES_MOCK.filter((expediente) => {
       const coincideNumero =
@@ -63,10 +42,20 @@ export const mockApiInterceptor: HttpInterceptorFn = (req, next) => {
       );
     });
 
+    const skipNormalizado = Number.isFinite(skip) && skip > 0 ? Math.floor(skip) : 0;
+    const limitNormalizado = Number.isFinite(limit) && limit > 0 ? Math.floor(limit) : 30;
+    const data = expedientes.slice(skipNormalizado, skipNormalizado + limitNormalizado);
+    const respuesta: ExpedientesListadoRespuesta = {
+      data,
+      total: expedientes.length,
+      skip: skipNormalizado,
+      limit: limitNormalizado,
+    };
+
     return of(
       new HttpResponse({
         status: 200,
-        body: expedientes
+        body: respuesta
       })
     );
 

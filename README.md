@@ -1,6 +1,6 @@
 # 📁 Gestor de expedientes
 
-Proyecto didactico para aprender Angular 22 con una aplicacion sencilla de gestion de expedientes. La app permite iniciar sesion, consultar un listado, aplicar filtros, navegar al detalle de un expediente y ver como se conectan componentes, rutas, servicios HTTP e interceptores.
+Proyecto didáctico para aprender Angular 22 con una aplicación sencilla de gestión de expedientes. La app permite iniciar sesión, consultar un listado, aplicar filtros, navegar al detalle de un expediente y ver cómo se conectan componentes, rutas, servicios HTTP e interceptores.
 
 📚 Recursos oficiales:
 
@@ -9,44 +9,44 @@ Proyecto didactico para aprender Angular 22 con una aplicacion sencilla de gesti
 - [TypeScript](https://www.typescriptlang.org/)
 - [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/intro.html)
 
-## 🔎 Que hace esta aplicacion
+## 🔎 Qué hace esta aplicación
 
-La aplicacion incluye:
+La aplicación incluye:
 
 - pantalla de login inicial
-- layout comun con header y footer
-- listado de expedientes con numero, titulo, estado, prioridad y fecha de alta
-- filtros por numero, estado, prioridad y rango de fechas
+- layout común con header y footer
+- listado de expedientes con número, título, estado, prioridad y fecha de alta
+- filtros por número, estado, prioridad y rango de fechas
 - carga del listado mediante un servicio HTTP
 - interceptor que simula una API de expedientes sin backend real
 - estado de carga mientras se resuelve la consulta del listado
 - navegacion al detalle de cada expediente
-- paginacion visual simple en el listado
-- pagina 404 para rutas no existentes
+- paginación visual simple en el listado
+- página 404 para rutas no existentes
 - routing con lazy loading para la feature de expedientes
 
 ## 🏗️ Arquitectura del proyecto
 
 La estructura esta organizada por responsabilidades:
 
-- `src/app/` contiene la configuracion principal de la aplicacion.
-- `src/app/core/` contiene piezas comunes como header, footer, pagina 404 e interceptores.
+- `src/app/` contiene la configuración principal de la aplicación.
+- `src/app/core/` contiene piezas comunes como header, footer, página 404 e interceptores.
 - `src/app/core/interceptors/` contiene el interceptor mock de API.
 - `src/app/features/login/` contiene el componente de login.
 - `src/app/features/expedientes/` contiene la feature de expedientes.
 - `src/app/features/expedientes/components/` contiene componentes reutilizables de la feature.
-- `src/app/features/expedientes/pages/` contiene las paginas de listado y detalle.
+- `src/app/features/expedientes/pages/` contiene las páginas de listado y detalle.
 - `src/app/features/expedientes/services/` contiene servicios de acceso a datos.
 - `src/app/features/expedientes/models/` contiene interfaces y tipos del dominio.
-- `src/app/features/expedientes/data/` contiene los datos mock que usa directamente la pagina de detalle.
+- `src/app/features/expedientes/data/` contiene el dataset mock compartido por el interceptor y la página de detalle.
 
 ## 🟦 Fundamentos de TypeScript
 
-TypeScript añade tipos a JavaScript y permite detectar errores durante la compilacion.
+TypeScript añade tipos a JavaScript y permite detectar errores durante la compilación.
 
 ### Tipos cotidianos
 
-Los tipos mas habituales en este proyecto son:
+Los tipos más habituales en este proyecto son:
 
 - primitivos: `string`, `number` y `boolean`
 - arrays: `Expediente[]`
@@ -55,7 +55,7 @@ Los tipos mas habituales en este proyecto son:
 
 Si no se escribe el tipo, TypeScript intenta inferirlo a partir del valor inicial.
 
-Las funciones tambien pueden declarar el tipo de sus parametros y de su retorno:
+Las funciones también pueden declarar el tipo de sus parámetros y de su retorno:
 
 ```ts
 function buscarPorNumero(numero: string): Expediente | undefined {
@@ -87,7 +87,7 @@ export interface Expediente {
 }
 ```
 
-Las interfaces y los tipos sirven durante la compilacion; no existen como objetos en tiempo de ejecucion.
+Las interfaces y los tipos sirven durante la compilación; no existen como objetos en tiempo de ejecución.
 
 ### Tipos genericos
 
@@ -118,7 +118,7 @@ Para arrancar el servidor de desarrollo, entra en la carpeta del proyecto y ejec
 ng serve
 ```
 
-La aplicacion queda disponible normalmente en `http://localhost:4200/`.
+La aplicación queda disponible normalmente en `http://localhost:4200/`.
 
 Para compilarla:
 
@@ -126,7 +126,7 @@ Para compilarla:
 ng build
 ```
 
-La compilacion genera la carpeta `dist/`.
+La compilación genera la carpeta `dist/`.
 
 En este proyecto, los comandos equivalentes son:
 
@@ -160,7 +160,7 @@ Ejemplo en `src/app/features/expedientes/pages/expedientes-page/expedientes-page
 ```ts
 @Component({
   selector: 'app-expedientes-page',
-  imports: [ExpedientesListadoFiltro, ExpedientesListado],
+  imports: [ExpedientesListadoFiltro, ExpedientesListado, ListadoPaginacion],
   templateUrl: './expedientes-page.html',
   styleUrl: './expedientes-page.css',
 })
@@ -190,14 +190,14 @@ La ruta `expedientes` carga de forma diferida las rutas definidas en `src/app/fe
 - `/expedientes` muestra el listado.
 - `/expedientes/:numero` muestra el detalle.
 
-Ademas, se usa `withComponentInputBinding()` en `src/app/app.config.ts`. Gracias a esto, los parametros de ruta y query params pueden recibirse como `input()` dentro de los componentes.
+Además, se usa `withComponentInputBinding()` en `src/app/app.config.ts`. Gracias a esto, los parámetros de ruta y query params pueden recibirse como `input()` dentro de los componentes.
 
-#### Parametros de ruta y query params
+#### Parámetros de ruta y query params
 
-- Los parametros de ruta identifican un recurso: `/expedientes/EXP-2026-0001`.
+- Los parámetros de ruta identifican un recurso: `/expedientes/EXP-2026-0001`.
 - Los query params indican como consultar o presentar los datos: `/expedientes?estado=tramite&prioridad=alta`.
 
-En esta aplicacion, los filtros se guardan como query params. Por eso una URL con filtros se puede copiar, recargar y volver a abrir conservando la misma busqueda.
+En esta aplicación, los filtros se guardan como query params. Por eso una URL con filtros se puede copiar, recargar y volver a abrir conservando la misma búsqueda.
 
 ### 3. 🔄 Formularios con ngModel
 
@@ -210,11 +210,11 @@ Ejemplo en `src/app/features/expedientes/components/expedientes-listado-filtro/e
 <select [(ngModel)]="filtro.estado"></select>
 ```
 
-Cuando se pulsa buscar, el componente emite los filtros hacia la pagina padre con un output.
+Cuando se pulsa buscar, el componente emite los filtros hacia la página padre con un output.
 
 ### 4. 🔗 Inputs y outputs
 
-La comunicacion entre componentes se hace con inputs y outputs.
+La comunicación entre componentes se hace con inputs y outputs.
 
 El componente de filtros recibe listas de estados y prioridades:
 
@@ -235,38 +235,52 @@ El componente de listado recibe los expedientes que debe pintar y emite el exped
 </app-expedientes-listado>
 ```
 
-### 5. ⚡ Signals, computed y resource
+### 5. ⚡ Signals, computed y rxResource
 
-La pagina de expedientes usa APIs modernas de Angular:
+La página de expedientes usa APIs modernas de Angular:
 
 - `input()` para leer filtros desde la URL.
-- `resource()` para lanzar una carga asincrona cuando cambian esos filtros.
-- `computed()` para exponer al template un array de expedientes seguro.
+- `rxResource()` para lanzar una carga asíncrona reactiva cuando cambian filtros o página.
+- `computed()` para exponer al template un array seguro a partir de la respuesta paginada.
 
 Ejemplo en `src/app/features/expedientes/pages/expedientes-page/expedientes-page.ts`:
 
 ```ts
-protected recursoExpedientes = resource({
+protected recursoExpedientes = rxResource({
   params: () => ({
     numero: this.numero(),
     estado: this.estado(),
     prioridad: this.prioridad(),
     fechaInicio: this.fechaInicio(),
     fechaFin: this.fechaFin(),
+    numeroPagina: this.numeroPagina(),
   }),
-  loader: ({ params }) => firstValueFrom(this.expedientesService.getExpedientes(params)),
+  stream: ({ params }) =>
+    this.expedientesService.getExpedientes(
+      {
+        numero: params.numero,
+        estado: params.estado,
+        prioridad: params.prioridad,
+        fechaInicio: params.fechaInicio,
+        fechaFin: params.fechaFin,
+      },
+      (this.normalizarNumeroPagina(params.numeroPagina) - 1) * this.resultadosPorPagina,
+      this.resultadosPorPagina,
+    ),
 });
 
+protected respuestaExpedientes = this.recursoExpedientes.value;
+
 protected expedientes = computed<Expediente[]>(() => {
-  return this.recursoExpedientes.value() ?? [];
+  return this.respuestaExpedientes()?.data ?? [];
 });
 ```
 
-Cuando cambian los query params de la URL, cambian los `input()`, se recalculan los `params` del `resource()` y se vuelve a llamar al servicio.
+`rxResource()` conecta señales (params) con un `Observable` (stream): cuando cambian los query params, cambian los `input()`, se recalculan los `params`, se relanza la petición y se actualiza el valor reactivo.
 
 ### 6. ⏳ Estado de carga
 
-`resource()` expone el estado de la carga con `isLoading()`.
+`rxResource()` expone el estado de la carga con `isLoading()`.
 
 En `src/app/features/expedientes/pages/expedientes-page/expedientes-page.html` se usa para mostrar un mensaje mientras se cargan los datos:
 
@@ -280,10 +294,16 @@ En `src/app/features/expedientes/pages/expedientes-page/expedientes-page.html` s
     [expedientes]="expedientes()"
     (expedienteSeleccionado)="seleccionarExpediente($event)">
   </app-expedientes-listado>
+  <app-listado-paginacion
+    [itemsPorPagina]="resultadosPorPagina"
+    [totalItems]="respuestaExpedientes()?.total ?? 0"
+    [itemsPrevios]="respuestaExpedientes()?.skip ?? 0"
+    (cambioPagina)="cambioPagina($event)">
+  </app-listado-paginacion>
 }
 ```
 
-Esto permite que el usuario vea feedback cuando se aplica una busqueda o cambia algun filtro.
+Esto permite que el usuario vea feedback cuando se aplica una búsqueda o cambia algún filtro.
 
 ### 7. 🌐 Servicios HTTP
 
@@ -297,13 +317,18 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { Expediente } from '../models/expediente.interface';
+import { ExpedientesListadoRespuesta } from '../models/expedientes-listado-respuesta.interface';
 import { FiltrosExpediente } from '../models/filtros-expediente.interface';
 
 @Service()
 export class ExpedientesService {
   private readonly httpClient = inject(HttpClient);
 
-  getExpedientes(filtros: Partial<FiltrosExpediente>): Observable<Expediente[]> {
+  getExpedientes(
+    filtros: Partial<FiltrosExpediente>,
+    skip = 0,
+    limit = 30,
+  ): Observable<ExpedientesListadoRespuesta> {
     let params = new HttpParams();
 
     if (filtros.numero) {
@@ -326,7 +351,12 @@ export class ExpedientesService {
       params = params.set('fechaFin', filtros.fechaFin);
     }
 
-    return this.httpClient.get<Expediente[]>('/api/expedientes', { params });
+    params = params.set('skip', String(skip));
+    params = params.set('limit', String(limit));
+
+    return this.httpClient.get<ExpedientesListadoRespuesta>('/api/expedientes', {
+      params,
+    });
   }
 
   getExpediente(numero: string): Observable<Expediente> {
@@ -337,23 +367,32 @@ export class ExpedientesService {
 }
 ```
 
-Aunque la URL sea `/api/expedientes`, no hay un servidor real detras. La peticion se resuelve mediante el interceptor mock.
+Aunque la URL sea `/api/expedientes`, no hay un servidor real detrás. La petición se resuelve mediante el interceptor mock.
 
-`HttpClient` devuelve un `Observable`. Un observable representa una fuente de datos que puede emitir valores de forma asincrona. En esta pagina, `firstValueFrom()` convierte la primera emision en una `Promise` para que pueda utilizarse dentro del `loader` de `resource()`.
+`HttpClient` devuelve un `Observable`. Un observable representa una fuente de datos que puede emitir valores de forma asíncrona. En esta página, ese `Observable` se integra directamente con `rxResource()`.
 
 ### 8. 🛡️ Interceptores HTTP
 
 El interceptor esta en `src/app/core/interceptors/mock-api-interceptor-interceptor.ts`.
 
-Su funcion es interceptar peticiones HTTP hechas por `HttpClient` y devolver datos mock cuando la URL coincide con `/api/expedientes`.
+Su función es interceptar peticiones HTTP hechas por `HttpClient` y devolver datos mock cuando la URL coincide con `/api/expedientes`.
 
 ```ts
 export const mockApiInterceptor: HttpInterceptorFn = (req, next) => {
   if (req.method === 'GET' && req.url === '/api/expedientes') {
+    // aplica filtros y paginación con skip/limit
+    const data = expedientes.slice(skipNormalizado, skipNormalizado + limitNormalizado);
+    const respuesta: ExpedientesListadoRespuesta = {
+      data,
+      total: expedientes.length,
+      skip: skipNormalizado,
+      limit: limitNormalizado,
+    };
+
     return of(
       new HttpResponse({
         status: 200,
-        body: EXPEDIENTES_MOCK
+        body: respuesta
       })
     );
   }
@@ -362,17 +401,19 @@ export const mockApiInterceptor: HttpInterceptorFn = (req, next) => {
 };
 ```
 
-Tambien interpreta los query params que envia el servicio:
+También interpreta los query params que envía el servicio:
 
 - `numero`
 - `estado`
 - `prioridad`
 - `fechaInicio`
 - `fechaFin`
+- `skip`
+- `limit`
 
-Con esos parametros filtra el array `EXPEDIENTES_MOCK` antes de devolver la respuesta.
+Con esos parámetros filtra y pagina el array `EXPEDIENTES_MOCK` antes de devolver la respuesta.
 
-La ruta de detalle tambien esta contemplada en el interceptor:
+La ruta de detalle también está contemplada en el interceptor:
 
 ```text
 GET /api/expedientes/EXP-2026-0001
@@ -380,11 +421,11 @@ GET /api/expedientes/EXP-2026-0001
 
 Si encuentra el expediente devuelve `200`; si no lo encuentra devuelve `404` con `body: null`.
 
-Actualmente, `expediente-detalle-page` no utiliza el servicio HTTP: busca el expediente directamente en `src/app/features/expedientes/data/expedientes.mock.ts`. El endpoint de detalle del interceptor esta preparado para una futura migracion del detalle al servicio.
+Actualmente, `expediente-detalle-page` no utiliza el servicio HTTP: busca el expediente directamente en `src/app/features/expedientes/data/expedientes.mock.ts`. El endpoint de detalle del interceptor está preparado para una futura migración del detalle al servicio.
 
-### 9. ⚙️ Configuracion de HttpClient e interceptores
+### 9. ⚙️ Configuración de HttpClient e interceptores
 
-Para que `HttpClient` funcione en una aplicacion standalone, se registra en `src/app/app.config.ts` con `provideHttpClient()`.
+Para que `HttpClient` funcione en una aplicación standalone, se registra en `src/app/app.config.ts` con `provideHttpClient()`.
 
 En el mismo punto se conecta el interceptor con `withInterceptors()`:
 
@@ -403,11 +444,11 @@ export const appConfig: ApplicationConfig = {
 };
 ```
 
-Esta configuracion hace que todas las peticiones hechas con `HttpClient` pasen por `mockApiInterceptor`.
+Esta configuración hace que todas las peticiones hechas con `HttpClient` pasen por `mockApiInterceptor`.
 
 ### 10. 🔁 Directivas de template
 
-La aplicacion usa la sintaxis moderna de control flow:
+La aplicación usa la sintaxis moderna de control flow:
 
 - `@if (...) { ... }` para mostrar contenido condicional.
 - `@for (expediente of expedientes; track expediente.numero) { ... }` para pintar listas.
@@ -478,7 +519,7 @@ El event binding permite reaccionar a acciones del usuario:
 </button>
 ```
 
-La pagina de expedientes navega con `Router`:
+La página de expedientes navega con `Router`:
 
 ```ts
 seleccionarExpediente(expediente: Expediente): void {
@@ -486,7 +527,7 @@ seleccionarExpediente(expediente: Expediente): void {
 }
 ```
 
-Los filtros tambien navegan, pero usando query params:
+Los filtros también navegan, pero usando query params:
 
 ```ts
 this.router.navigate(['/expedientes'], {
@@ -496,31 +537,33 @@ this.router.navigate(['/expedientes'], {
     prioridad: filtros?.prioridad || null,
     fechaInicio: filtros?.fechaInicio || null,
     fechaFin: filtros?.fechaFin || null,
+    numeroPagina: null,
   },
 });
 ```
 
 ## 📊 Flujo de datos del listado
 
-El listado ya no se alimenta filtrando un array local dentro de la pagina. Ahora el flujo es:
+El listado ya no se alimenta filtrando un array local dentro de la página. Ahora el flujo es:
 
 ```text
 Formulario de filtros
 -> aplicarFiltros(...)
--> query params en la URL
+-> query params en la URL (incluye numeroPagina)
 -> input() en ExpedientesPage
--> resource()
--> ExpedientesService.getExpedientes(...)
+-> rxResource()
+-> ExpedientesService.getExpedientes(..., skip, limit)
 -> HttpClient GET /api/expedientes
 -> mockApiInterceptor
--> EXPEDIENTES_MOCK filtrado
+-> respuesta paginada { data, total, skip, limit }
 -> app-expedientes-listado
+-> app-listado-paginacion (Página X de Y)
 ```
 
 Este patron es util para aprender como separar responsabilidades:
 
 - el formulario solo recoge filtros
-- la pagina coordina navegacion y estado
+- la página coordina navegación y estado
 - el servicio conoce la API
 - el interceptor simula el backend
 - el listado solo pinta datos
@@ -567,14 +610,14 @@ npm install
 npm start
 ```
 
-En Windows PowerShell puede aparecer un bloqueo de ejecucion de scripts con `npm.ps1`. En ese caso usa `npm.cmd`:
+En Windows PowerShell puede aparecer un bloqueo de ejecución de scripts con `npm.ps1`. En ese caso usa `npm.cmd`:
 
 ```powershell
 npm.cmd install
 npm.cmd start
 ```
 
-Luego abre la aplicacion en:
+Luego abre la aplicación en:
 
 ```text
 http://localhost:4200/
@@ -590,7 +633,7 @@ npm run build
 npm test
 ```
 
-Tambien se puede usar Angular CLI directamente:
+También se puede usar Angular CLI directamente:
 
 ```bash
 ng serve
@@ -598,34 +641,34 @@ ng build
 ng test
 ```
 
-En PowerShell, si `ng` o `npm` estan bloqueados por la politica de ejecucion, usa:
+En PowerShell, si `ng` o `npm` están bloqueados por la política de ejecución, usa:
 
 ```powershell
 npm.cmd run build
 npm.cmd start
 ```
 
-## 💡 Notas didacticas importantes
+## 💡 Notas didácticas importantes
 
 - `@Service()` es el decorador usado por Angular 22 para servicios auto-provistos.
-- `HttpClient` no funciona por si solo: debe registrarse con `provideHttpClient()`.
+- `HttpClient` no funciona por sí solo: debe registrarse con `provideHttpClient()`.
 - Los interceptores funcionales se registran con `withInterceptors([...])`.
 - La URL `/api/expedientes` es ficticia: existe para que el servicio parezca real mientras el interceptor devuelve datos mock.
-- `resource()` es apropiado para cargas de lectura. Para crear, modificar o borrar datos conviene usar otro flujo.
+- `rxResource()` es apropiado para cargas de lectura basadas en `Observable` y params reactivos. Para crear, modificar o borrar datos conviene usar otro flujo.
 - El listado usa el servicio HTTP y el interceptor. El detalle usa directamente el mock local de `src/app/features/expedientes/data/expedientes.mock.ts`; por eso ambos mocks pueden evolucionar de forma independiente.
 
-## 🎯 Objetivo didactico
+## 🎯 Objetivo didáctico
 
-Este proyecto sirve como base para practicar una aplicacion Angular moderna con:
+Este proyecto sirve como base para practicar una aplicación Angular moderna con:
 
 - componentes standalone
 - rutas normales y lazy loading
 - formularios con `ngModel`
-- inputs, outputs y comunicacion entre componentes
+- inputs, outputs y comunicación entre componentes
 - signals y `computed()`
-- `resource()` para lectura asincrona
+- `rxResource()` para lectura asíncrona reactiva
 - servicios HTTP con `HttpClient`
 - interceptores funcionales
-- separacion entre pagina, servicio, interceptor, modelo y componente de presentacion
+- separación entre página, servicio, interceptor, modelo y componente de presentación
 
-El objetivo es entender el flujo completo de una pantalla realista: el usuario filtra, la URL refleja esos filtros, Angular recarga datos, el servicio hace una peticion HTTP y el interceptor mock responde como si hubiera un backend.
+El objetivo es entender el flujo completo de una pantalla realista: el usuario filtra, la URL refleja esos filtros, Angular recarga datos, el servicio hace una petición HTTP y el interceptor mock responde como si hubiera un backend.

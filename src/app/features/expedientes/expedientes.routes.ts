@@ -10,5 +10,10 @@ export const routes: Routes = [
     {
         path: ':numero',
         component: ExpedienteDetallePage
+    },
+    {
+        path: ':numero/editar',
+        component: ExpedienteDetallePage,
+        data: { modo: 'editar' }
     }
 ];

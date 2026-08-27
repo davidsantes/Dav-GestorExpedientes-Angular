@@ -1,5 +1,10 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
 .resultados {
-  width: min(100% - 2rem, 1180px);
+  width: min(100% - 3rem, 1440px);
   margin: 0 auto;
   padding: 2.5rem 0;
 }
@@ -164,7 +169,7 @@ tbody tr:hover {
 
 @media (max-width: 768px) {
   .resultados {
-    width: min(100% - 1.5rem, 1180px);
+    width: min(100% - 1.5rem, 1440px);
     padding: 1.5rem 0;
   }
 

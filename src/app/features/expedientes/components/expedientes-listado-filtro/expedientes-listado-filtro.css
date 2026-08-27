@@ -1,5 +1,10 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
 .filtros {
-  width: min(100% - 2rem, 1180px);
+  width: min(100% - 3rem, 1440px);
   margin: 0 auto;
   padding: 2.5rem 0;
 }
@@ -116,7 +121,7 @@ button {
 
 @media (max-width: 560px) {
   .filtros {
-    width: min(100% - 1.5rem, 1180px);
+    width: min(100% - 1.5rem, 1440px);
     padding: 1.5rem 0;
   }
 

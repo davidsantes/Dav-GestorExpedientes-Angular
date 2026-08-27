@@ -1,5 +1,11 @@
+:host {
+  display: flex;
+  flex: 1;
+}
+
 .login {
   display: grid;
+  flex: 1;
   place-items: center;
   padding: 2rem 1rem;
 }

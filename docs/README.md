@@ -1,12 +1,12 @@
-# Documentacion del proyecto
+# Documentación del proyecto
 
-Indice organizado como recorrido de aprendizaje para entender este proyecto Angular 22 desde la UI hasta el flujo de datos.
+Índice organizado como recorrido de aprendizaje para entender este proyecto Angular 22 desde la UI hasta el flujo de datos.
 
-## 1. Conoce la aplicacion
+## 1. Conoce la aplicación
 
-[01 - Estructura de la aplicacion](01-estructura-aplicacion.md)
+[01 - Estructura de la aplicación](01-estructura-aplicacion.md)
 
-Que ve el usuario, que páginas existen, como se componen y como se navega entre ellas.
+Qué ve el usuario, qué páginas existen, cómo se componen y cómo se navega entre ellas.
 
 ## 2. Arquitectura
 
@@ -24,25 +24,25 @@ APIs modernas usadas por el código: standalone components, `input()`, `output()
 
 [04 - Routing](04-routing.md)
 
-Rutas principales, lazy loading, parametros, query params, navegacion y `withComponentInputBinding()`.
+Rutas principales, lazy loading, parámetros, query params, navegación y `withComponentInputBinding()`.
 
 ## 5. Componentes y bindings
 
 [05 - Componentes y bindings](05-componentes-y-bindings.md)
 
-Interpolacion, property binding, event binding, two-way binding, inputs, outputs y comunicacion padre/hijo con ejemplos reales.
+Interpolación, property binding, event binding, two-way binding, inputs, outputs y comunicación padre/hijo con ejemplos reales.
 
 ## 6. Formularios
 
 [06 - Formularios](06-formularios.md)
 
-Login, filtros y edición. Diferencias entre `ngModel` y Signal Forms segun su uso real en el proyecto.
+Login, filtros y edición. Diferencias entre `ngModel` y Signal Forms según su uso real en el proyecto.
 
 ## 7. Signals y rxResource
 
 [07 - Signals y rxResource](07-signals-y-rxresource.md)
 
-Como se usan signals, computed, inputs y `rxResource` para cargar y pintar el listado.
+Cómo se usan signals, computed, inputs y `rxResource` para cargar y pintar el listado.
 
 ## 8. HTTP y API mock
 
@@ -60,10 +60,10 @@ Recorrido paso a paso desde la UI hasta la respuesta mock y vuelta al template.
 
 [10 - TypeScript](10-typescript.md)
 
-Interfaces, tipos union, genericos, `Partial`, arrays tipados y tipos importados desde el código real.
+Interfaces, tipos union, genéricos, `Partial`, arrays tipados y tipos importados desde el código real.
 
-## 11. Decisiones tecnicas
+## 11. Decisiones técnicas
 
-[11 - Decisiones tecnicas](11-decisiones-tecnicas.md)
+[11 - Decisiones técnicas](11-decisiones-tecnicas.md)
 
-Decisiones documentadas e interpretaciones basadas en la implementacion.
+Decisiones documentadas e interpretaciones basadas en la implementación.

@@ -26,7 +26,13 @@ describe('ExpedienteDetallePage', () => {
   it('should show the expediente identified by the route input', () => {
     fixture.componentRef.setInput('numero', 'EXP-2026-0001');
 
-    expect(component.expediente().titulo).toBe('Solicitud de licencia de actividad');
+    expect(component.expediente().titulo).toBe('Solicitud de licencia de actividad 1');
+  });
+
+  it('should enable edit mode from the route data input', () => {
+    fixture.componentRef.setInput('modo', 'editar');
+
+    expect(component.esEdicion()).toBe(true);
   });
 
   it('should navigate back to the expedientes list', async () => {

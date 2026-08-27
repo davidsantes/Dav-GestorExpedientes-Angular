@@ -3,6 +3,7 @@ import {
   HttpResponse
 } from '@angular/common/http';
 import type { ExpedientesListadoRespuesta } from '../../features/expedientes/models/expedientes-listado-respuesta.interface';
+import type { Expediente } from '../../features/expedientes/models/expediente.interface';
 import { EXPEDIENTES_MOCK } from '../../features/expedientes/data/expedientes.mock';
 import { of } from 'rxjs';
 
@@ -86,6 +87,27 @@ export const mockApiInterceptor: HttpInterceptorFn = (req, next) => {
       })
     );
 
+  }
+
+  const expedienteActualizacionMatch = req.method === 'PUT'
+    ? req.url.match(/^\/api\/expedientes\/([^/]+)$/)
+    : null;
+
+  if (expedienteActualizacionMatch) {
+    const numero = expedienteActualizacionMatch[1];
+    const indice = EXPEDIENTES_MOCK.findIndex(expediente => expediente.numero === numero);
+
+    if (indice === -1) {
+      return of(new HttpResponse<null>({ status: 404, body: null }));
+    }
+
+    const expedienteActualizado: Expediente = {
+      ...(req.body as Expediente),
+      numero,
+    };
+    EXPEDIENTES_MOCK[indice] = expedienteActualizado;
+
+    return of(new HttpResponse({ status: 200, body: expedienteActualizado }));
   }
 
   return next(req);

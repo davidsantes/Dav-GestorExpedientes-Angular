@@ -50,4 +50,11 @@ export class ExpedientesService {
       `/api/expedientes/${encodeURIComponent(numero)}`
     );
   }
+
+  actualizarExpediente(expediente: Expediente): Observable<Expediente> {
+    return this.httpClient.put<Expediente>(
+      `/api/expedientes/${encodeURIComponent(expediente.numero)}`,
+      expediente,
+    );
+  }
 }

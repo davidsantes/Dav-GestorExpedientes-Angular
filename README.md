@@ -14,17 +14,59 @@ Proyecto didáctico para aprender Angular 22 con una aplicación sencilla de ges
 
 La aplicación incluye:
 
-- pantalla de login inicial
+- pantalla de login con validación de usuario y contraseña mediante Signal Forms
 - layout común con header y footer
 - listado de expedientes con número, título, estado, prioridad y fecha de alta
 - filtros por número, estado, prioridad y rango de fechas
 - carga del listado mediante un servicio HTTP
 - interceptor que simula una API de expedientes sin backend real
 - estado de carga mientras se resuelve la consulta del listado
-- navegación al detalle de cada expediente
+- consulta de los datos de cada expediente
+- edición de título, estado, prioridad y fecha de alta
+- validación mediante Signal Forms de título y fecha de alta antes de guardar
+- guardado de los cambios de edición en la API mock
 - paginación visual simple en el listado
 - página 404 para rutas no existentes
 - routing con lazy loading para la feature de expedientes
+
+## ▶️ Cómo arrancar el proyecto
+
+Desde la raíz del proyecto:
+
+```bash
+npm install
+npm start
+```
+
+La aplicación queda disponible normalmente en:
+
+```text
+http://localhost:4200/
+```
+
+En Windows PowerShell puede aparecer un bloqueo de ejecución de scripts con `npm.ps1`. En ese caso usa `npm.cmd`:
+
+```powershell
+npm.cmd install
+npm.cmd start
+```
+
+## 🛠️ Comandos habituales de Angular
+
+```bash
+npm run build
+npm test
+ng serve
+ng build
+ng test
+```
+
+Para generar elementos con Angular CLI:
+
+```bash
+ng generate component nombre-componente
+ng generate service nombre-servicio
+```
 
 ## 🏗️ Arquitectura del proyecto
 
@@ -37,12 +79,12 @@ La estructura está organizada por responsabilidades:
 - `src/app/features/login/` contiene la feature de login.
 - `src/app/features/login/components/` contiene el componente de login.
 - `src/app/features/expedientes/` contiene la feature de expedientes.
-- `src/app/features/expedientes/expedientes.routes.ts` define las rutas de listado y detalle de la feature.
+- `src/app/features/expedientes/expedientes.routes.ts` define las rutas de listado, consulta y edición de expedientes.
 - `src/app/features/expedientes/components/` contiene componentes reutilizables de la feature.
-- `src/app/features/expedientes/pages/` contiene las páginas de listado y detalle.
-- `src/app/features/expedientes/services/` contiene servicios de acceso a datos.
-- `src/app/features/expedientes/models/` contiene interfaces y tipos del dominio.
-- `src/app/features/expedientes/data/` contiene el dataset mock compartido por el interceptor y la página de detalle.
+- `src/app/features/expedientes/pages/` contiene las páginas de listado y detalle; `expediente-detalle-page` presenta los modos de consulta y edición.
+- `src/app/features/expedientes/services/` contiene el acceso HTTP para consultar y actualizar expedientes.
+- `src/app/features/expedientes/models/` contiene los tipos del dominio y `ExpedienteForm`, el modelo usado por Signal Forms durante la edición.
+- `src/app/features/expedientes/data/` contiene el dataset mock compartido por el interceptor y la consulta de detalle.
 - `src/app/shared/` contiene elementos compartidos entre features.
 - `src/app/shared/components/listado-paginacion/` contiene el componente reutilizable de paginación.
 
@@ -93,6 +135,22 @@ export interface Expediente {
 }
 ```
 
+Aunque se denomine `numero`, el identificador del expediente es un `string` porque incluye texto, por ejemplo `EXP-2026-0001`.
+
+La edición utiliza una interfaz propia para el estado del formulario:
+
+```ts
+export interface ExpedienteForm {
+  numero: string;
+  titulo: string;
+  estado: EstadoExpediente;
+  prioridad: PrioridadExpediente;
+  fechaAlta: string;
+}
+```
+
+`ExpedienteForm` permite mantener el modelo que manipula Signal Forms separado del modelo de dominio `Expediente`, aunque compartan actualmente los mismos campos.
+
 Las interfaces y los tipos sirven durante la compilación; no existen como objetos en tiempo de ejecución.
 
 ### Tipos genéricos
@@ -109,53 +167,6 @@ interface Page<T> {
 ```
 
 ## 🧠 Conceptos de Angular que se practican
-
-### 🛠️ Crear y ejecutar un proyecto Angular
-
-Para crear un proyecto nuevo con Angular CLI:
-
-```bash
-ng new tienda-online
-```
-
-Para arrancar el servidor de desarrollo, entra en la carpeta del proyecto y ejecuta:
-
-```bash
-ng serve
-```
-
-La aplicación queda disponible normalmente en `http://localhost:4200/`.
-
-Para compilarla:
-
-```bash
-ng build
-```
-
-La compilación genera la carpeta `dist/`.
-
-En este proyecto, los comandos equivalentes son:
-
-```bash
-npm install
-npm start
-npm run build
-npm test
-```
-
-Para generar componentes reutilizables:
-
-```bash
-ng generate component producto-listado
-ng generate component header
-ng generate component footer
-```
-
-Para generar un servicio:
-
-```bash
-ng generate service clientes-service
-```
 
 ### 1. 🧩 Componentes standalone
 
@@ -195,8 +206,23 @@ La ruta `expedientes` carga de forma diferida las rutas definidas en `src/app/fe
 
 - `/expedientes` muestra el listado.
 - `/expedientes/:numero` muestra el detalle.
+- `/expedientes/:numero/editar` abre el mismo detalle en modo edición.
 
-Además, se usa `withComponentInputBinding()` en `src/app/app.config.ts`. Gracias a esto, los parámetros de ruta y query params pueden recibirse como `input()` dentro de los componentes.
+La feature reutiliza `ExpedienteDetallePage` en ambas rutas. La ruta de edición aporta un dato estático para distinguir el modo:
+
+```ts
+export const routes: Routes = [
+  { path: '', component: ExpedientesPage },
+  { path: ':numero', component: ExpedienteDetallePage },
+  {
+    path: ':numero/editar',
+    component: ExpedienteDetallePage,
+    data: { modo: 'editar' },
+  },
+];
+```
+
+Además, se usa `withComponentInputBinding()` en `src/app/app.config.ts`. Gracias a esto, los parámetros de ruta, query params y datos estáticos de ruta pueden recibirse como `input()` dentro de los componentes. En `ExpedienteDetallePage`, `numero` identifica el expediente y `modo` cambia entre `consulta` y `editar`.
 
 #### Parámetros de ruta y query params
 
@@ -205,7 +231,7 @@ Además, se usa `withComponentInputBinding()` en `src/app/app.config.ts`. Gracia
 
 En esta aplicación, los filtros se guardan como query params. Por eso una URL con filtros se puede copiar, recargar y volver a abrir conservando la misma búsqueda.
 
-### 3. 🔄 Formularios con ngModel
+### 3. 🔄 Formulario de filtros con ngModel
 
 El componente de filtros usa `FormsModule` y `[(ngModel)]` para sincronizar los campos del formulario con el objeto `filtro`.
 
@@ -218,11 +244,53 @@ Ejemplo en `src/app/features/expedientes/components/expedientes-listado-filtro/e
 
 Cuando se pulsa buscar, el componente emite los filtros hacia la página padre con un output.
 
-### 4. 🔗 Inputs y outputs
+### 4. ✅ Formularios y validaciones con Signal Forms
 
-La comunicación entre componentes se hace con inputs y outputs.
+La aplicación usa Signal Forms para los formularios con validación reactiva. Cada formulario parte de un `signal()` con el modelo y se conecta con `form()`. La directiva `FormField` enlaza los controles nativos mediante `[formField]`.
 
-El componente de filtros recibe listas de estados y prioridades:
+```ts
+import { signal } from '@angular/core';
+import { form, FormField, required } from '@angular/forms/signals';
+
+loginModel = signal({ usuario: '', password: '' });
+
+loginForm = form(this.loginModel, (schemaPath) => {
+  required(schemaPath.usuario, { message: 'El usuario es obligatorio' });
+  required(schemaPath.password, { message: 'La contraseña es obligatoria' });
+});
+```
+
+#### Dónde se usa
+
+- Login: `src/app/features/login/components/login/login.ts` y `login.html`.
+  - `usuario` y `password` son obligatorios.
+  - Los mensajes se muestran cuando un campo se ha tocado y es inválido.
+  - El botón **Iniciar sesión** permanece deshabilitado con `[disabled]="loginForm().invalid()"`.
+- Edición de expediente: `src/app/features/expedientes/pages/expediente-detalle-page/expediente-detalle-page.ts` y `expediente-detalle-page.html`.
+  - Usa `ExpedienteForm` como modelo de la vista, separado de `Expediente`.
+  - Solo `titulo` y `fechaAlta` son obligatorios. Estado y prioridad se seleccionan desde valores cerrados y siempre tienen un valor.
+  - El error de Título se muestra tras tocarlo y dejarlo vacío. El de Fecha de alta aparece inmediatamente al borrar la fecha.
+  - El botón **Guardar cambios** se deshabilita mientras `formularioEdicion().invalid()` sea `true`.
+
+Ejemplo de binding y mensaje de validación:
+
+```html
+<input id="titulo" type="text" [formField]="formularioEdicion.titulo">
+
+@if (formularioEdicion.titulo().touched() && formularioEdicion.titulo().invalid()) {
+  @for (error of formularioEdicion.titulo().errors(); track error) {
+    <span class="error-message" role="alert">{{ error.message }}</span>
+  }
+}
+```
+
+`required(...)` se declara en el esquema de Signal Forms. No se añade el atributo HTML `required` a un control con `[formField]`, porque Angular Signal Forms ya controla esa validación y no permite combinarlos.
+
+### 5. 🔗 Inputs y outputs entre componentes
+
+La página de expedientes proporciona datos a sus componentes hijos mediante inputs y recibe sus acciones mediante outputs.
+
+El componente de filtros usa `input()` para recibir las listas de estados y prioridades, y `output()` para emitir los filtros aplicados:
 
 ```html
 <app-expedientes-listado-filtro
@@ -232,7 +300,9 @@ El componente de filtros recibe listas de estados y prioridades:
 </app-expedientes-listado-filtro>
 ```
 
-El componente de listado recibe los expedientes que debe pintar y emite el expediente seleccionado:
+Al pulsar **Buscar**, `filtrosAplicados` emite el objeto de filtros; `ExpedientesPage.aplicarFiltros(...)` los guarda como query params y recarga el listado.
+
+El componente de listado recibe los expedientes que debe pintar mediante `@Input()` y emite el expediente seleccionado mediante `output()`:
 
 ```html
 <app-expedientes-listado
@@ -241,7 +311,9 @@ El componente de listado recibe los expedientes que debe pintar y emite el exped
 </app-expedientes-listado>
 ```
 
-### 5. ⚡ Signals, computed y rxResource
+Cuando se selecciona un expediente, `expedienteSeleccionado` llama a `seleccionarExpediente(...)` en la página padre y navega a la consulta del detalle.
+
+### 6. ⚡ Signals, computed y rxResource
 
 La página de expedientes usa APIs modernas de Angular:
 
@@ -284,7 +356,7 @@ protected expedientes = computed<Expediente[]>(() => {
 
 `rxResource()` conecta señales (params) con un `Observable` (stream): cuando cambian los query params, cambian los `input()`, se recalculan los `params`, se relanza la petición y se actualiza el valor reactivo.
 
-### 6. ⏳ Estado de carga
+### 7. ⏳ Estado de carga
 
 `rxResource()` expone el estado de la carga con `isLoading()`.
 
@@ -311,9 +383,9 @@ En `src/app/features/expedientes/pages/expedientes-page/expedientes-page.html` s
 
 Esto permite que el usuario vea feedback cuando se aplica una búsqueda o cambia algún filtro.
 
-### 7. 🌐 Servicios HTTP
+### 8. 🌐 Servicios HTTP
 
-El acceso al listado está encapsulado en `src/app/features/expedientes/services/expedientes-service.ts`.
+El acceso al listado y la actualización de expedientes están encapsulados en `src/app/features/expedientes/services/expedientes-service.ts`.
 
 El servicio usa el decorador `@Service()` de Angular 22, `inject(HttpClient)` y devuelve `Observable`:
 
@@ -370,6 +442,13 @@ export class ExpedientesService {
       `/api/expedientes/${encodeURIComponent(numero)}`
     );
   }
+
+  actualizarExpediente(expediente: Expediente): Observable<Expediente> {
+    return this.httpClient.put<Expediente>(
+      `/api/expedientes/${encodeURIComponent(expediente.numero)}`,
+      expediente,
+    );
+  }
 }
 ```
 
@@ -379,7 +458,7 @@ Aunque la URL sea `/api/expedientes`, no hay un servidor real detrás. La petici
 
 En Angular, los `Observable` provienen de RxJS y son la base del flujo reactivo de peticiones HTTP, transformaciones y composición de datos.
 
-### 8. 🛡️ Interceptores HTTP
+### 9. 🛡️ Interceptores HTTP
 
 El interceptor está en `src/app/core/interceptors/mock-api-interceptor-interceptor.ts`.
 
@@ -429,9 +508,9 @@ GET /api/expedientes/EXP-2026-0001
 
 Si encuentra el expediente devuelve `200`; si no lo encuentra devuelve `404` con `body: null`.
 
-Actualmente, `expediente-detalle-page` no utiliza el servicio HTTP: busca el expediente directamente en `src/app/features/expedientes/data/expedientes.mock.ts`. El endpoint de detalle del interceptor está preparado para una futura migración del detalle al servicio.
+Actualmente, `expediente-detalle-page` busca el expediente para consulta directamente en `src/app/features/expedientes/data/expedientes.mock.ts`. En modo edición, usa `ExpedientesService.actualizarExpediente(...)` para guardar mediante `PUT /api/expedientes/:numero`; el interceptor mock actualiza `EXPEDIENTES_MOCK` y devuelve el expediente guardado.
 
-### 9. ⚙️ Configuración de HttpClient e interceptores
+### 10. ⚙️ Configuración de HttpClient e interceptores
 
 Para que `HttpClient` funcione en una aplicación standalone, se registra en `src/app/app.config.ts` con `provideHttpClient()`.
 
@@ -454,7 +533,7 @@ export const appConfig: ApplicationConfig = {
 
 Esta configuración hace que todas las peticiones hechas con `HttpClient` pasen por `mockApiInterceptor`.
 
-### 10. 🔁 Directivas de template
+### 11. 🔁 Directivas de template
 
 La aplicación usa la sintaxis moderna de control flow:
 
@@ -467,7 +546,7 @@ Ejemplos:
 - `src/app/features/expedientes/pages/expediente-detalle-page/expediente-detalle-page.html`
 - `src/app/features/expedientes/components/expedientes-listado/expedientes-listado.html`
 
-### 11. 🔀 Bindings de Angular
+### 12. 🔀 Bindings de Angular
 
 Angular permite enlazar el estado del componente con la vista en varias direcciones.
 
@@ -497,7 +576,7 @@ El formulario de filtros usa `[(ngModel)]`:
 
 Para utilizarlo, el componente standalone importa `FormsModule`.
 
-### 12. 📝 Interpolación y property binding
+### 13. 📝 Interpolación y property binding
 
 La interpolación muestra datos en el HTML:
 
@@ -517,7 +596,7 @@ El property binding enlaza valores del componente con propiedades o clases:
 </span>
 ```
 
-### 13. 🖱️ Event binding y navegación
+### 14. 🖱️ Event binding y navegación
 
 El event binding permite reaccionar a acciones del usuario:
 
@@ -568,6 +647,20 @@ Formulario de filtros
 -> app-listado-paginacion (Página X de Y)
 ```
 
+El mismo flujo representado como diagrama:
+
+```mermaid
+flowchart LR
+  F[Formulario de filtros] --> P[ExpedientesPage]
+  P --> U[Query params]
+  U --> R[rxResource]
+  R --> S[ExpedientesService]
+  S --> H[HttpClient GET]
+  H --> I[mockApiInterceptor]
+  I --> D[Respuesta paginada]
+  D --> L[Listado y paginación]
+```
+
 Este patrón es útil para aprender cómo separar responsabilidades:
 
 - el formulario solo recoge filtros
@@ -609,53 +702,6 @@ export type PrioridadExpediente =
   | 'baja';
 ```
 
-## ▶️ Cómo arrancar el proyecto
-
-Desde la raíz del proyecto:
-
-```bash
-npm install
-npm start
-```
-
-En Windows PowerShell puede aparecer un bloqueo de ejecución de scripts con `npm.ps1`. En ese caso usa `npm.cmd`:
-
-```powershell
-npm.cmd install
-npm.cmd start
-```
-
-Luego abre la aplicación en:
-
-```text
-http://localhost:4200/
-```
-
-Si el puerto `4200` está ocupado, Angular preguntará si quieres usar otro puerto.
-
-## 🛠️ Scripts útiles
-
-```bash
-npm start
-npm run build
-npm test
-```
-
-También se puede usar Angular CLI directamente:
-
-```bash
-ng serve
-ng build
-ng test
-```
-
-En PowerShell, si `ng` o `npm` están bloqueados por la política de ejecución, usa:
-
-```powershell
-npm.cmd run build
-npm.cmd start
-```
-
 ## 💡 Notas didácticas importantes
 
 - `@Service()` es el decorador usado por Angular 22 para servicios autoprovistos.
@@ -663,7 +709,7 @@ npm.cmd start
 - Los interceptores funcionales se registran con `withInterceptors([...])`.
 - La URL `/api/expedientes` es ficticia: existe para que el servicio parezca real mientras el interceptor devuelve datos mock.
 - `rxResource()` es apropiado para cargas de lectura basadas en `Observable` y params reactivos. Para crear, modificar o borrar datos conviene usar otro flujo.
-- El listado usa el servicio HTTP y el interceptor. El detalle usa directamente el mock local de `src/app/features/expedientes/data/expedientes.mock.ts`; por eso ambos mocks pueden evolucionar de forma independiente.
+- El listado y la edición usan el servicio HTTP y el interceptor. La consulta de detalle lee `EXPEDIENTES_MOCK` directamente; el interceptor usa y actualiza ese mismo dataset al guardar cambios.
 
 ## 🎯 Objetivo didáctico
 

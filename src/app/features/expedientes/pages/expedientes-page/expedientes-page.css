@@ -1,5 +1,11 @@
+:host {
+	display: block;
+	flex: 1;
+	min-width: 0;
+}
+
 .estado-carga {
-	width: min(100% - 2rem, 1180px);
+	width: min(100% - 3rem, 1440px);
 	margin: 2.5rem auto;
 	padding: 1.25rem 1.5rem;
 	border: 1px solid #c7def2;

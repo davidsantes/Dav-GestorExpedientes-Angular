@@ -26,9 +26,20 @@ h1 {
   font-size: 1.8rem;
 }
 
+.subtitle {
+  margin: -1.25rem 0 2rem;
+  color: #52718e;
+  text-align: center;
+}
+
 form {
   display: grid;
   gap: 0.7rem;
+}
+
+.form-group {
+  display: grid;
+  gap: 0.4rem;
 }
 
 label {
@@ -50,6 +61,12 @@ input:focus {
   border-color: #0f4c81;
 }
 
+.error-message {
+  margin: -0.15rem 0 0;
+  color: #b42318;
+  font-size: 0.875rem;
+}
+
 button {
   margin-top: 0.5rem;
   padding: 0.85rem;
@@ -66,13 +83,7 @@ button:hover {
   background: #17669f;
 }
 
-a {
-  margin-top: 0.7rem;
-  color: #17669f;
-  text-align: center;
-  text-decoration: none;
-}
-
-a:hover {
-  text-decoration: underline;
+button:disabled {
+  cursor: not-allowed;
+  background: #7f9bb5;
 }

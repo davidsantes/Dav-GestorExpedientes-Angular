@@ -1,19 +1,43 @@
-<section class="login">
+<section class="login" aria-labelledby="login-title">
   <div class="login-card">
-    <h1>Iniciar sesión</h1>
+    <h1 id="login-title">Iniciar sesión</h1>
+    <p class="subtitle">Introduce tus credenciales para continuar</p>
 
     <form>
-      <label for="username">Usuario</label>
-      <input id="username" type="text" placeholder="Introduce tu usuario">
+      <div class="form-group">
+        <label for="usuario">Usuario</label>
+        <input
+          id="usuario"
+          type="text"
+          placeholder="Usuario"
+          [formField]="loginForm.usuario">
+        @if (loginForm.usuario().touched() && loginForm.usuario().invalid()) {
+          @for (error of loginForm.usuario().errors(); track error) {
+            <p class="error-message">{{ error.message }}</p>
+          }
+        }
+      </div>
 
-      <label for="password">Contraseña</label>
-      <input id="password" type="password" placeholder="Introduce tu contraseña">
+      <div class="form-group">
+        <label for="password">Contraseña</label>
+        <input
+          id="password"
+          type="password"
+          placeholder="Contraseña"
+          [formField]="loginForm.password">
+        @if (loginForm.password().touched() && loginForm.password().invalid()) {
+          @for (error of loginForm.password().errors(); track error) {
+            <p class="error-message">{{ error.message }}</p>
+          }
+        }
+      </div>
 
-      <button type="button" (click)="login()">
+      <button
+        type="button"
+        (click)="login()"
+        [disabled]="loginForm().invalid()">
         Iniciar sesión
       </button>
-
-      <a href="#">¿Olvidaste tu contraseña?</a>
     </form>
   </div>
 </section>

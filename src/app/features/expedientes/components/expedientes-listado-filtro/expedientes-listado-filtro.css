@@ -15,7 +15,7 @@
 
 .eyebrow {
   margin: 0 0 0.35rem;
-  color: #49a6d8;
+  color: var(--color-accent);
   font-size: 0.8rem;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -24,7 +24,7 @@
 
 h1 {
   margin: 0;
-  color: #0f4c81;
+  color: var(--color-primary);
   font-size: 1.8rem;
 }
 
@@ -33,10 +33,10 @@ h1 {
   grid-template-columns: 1.5fr repeat(2, 1fr) repeat(2, 1fr);
   gap: 1.25rem;
   padding: 1.5rem;
-  border: 1px solid #c7def2;
+  border: 1px solid var(--color-border);
   border-radius: 10px;
-  background: #ffffff;
-  box-shadow: 0 8px 22px rgba(15, 76, 129, 0.1);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-surface);
 }
 
 .campo {
@@ -46,7 +46,7 @@ h1 {
 }
 
 label {
-  color: #16324f;
+  color: var(--color-text);
   font-size: 0.9rem;
   font-weight: 600;
 }
@@ -57,17 +57,17 @@ select {
   box-sizing: border-box;
   min-height: 2.7rem;
   padding: 0.65rem 0.75rem;
-  border: 1px solid #a9c9e5;
+  border: 1px solid var(--color-border-strong);
   border-radius: 6px;
   color: #294966;
-  background: #ffffff;
+  background: var(--color-surface);
   font: inherit;
 }
 
 input:focus,
 select:focus {
-  outline: 2px solid #49a6d8;
-  border-color: #0f4c81;
+  outline: 2px solid var(--color-accent);
+  border-color: var(--color-primary);
 }
 
 .acciones {
@@ -89,23 +89,23 @@ button {
 }
 
 .primary-button {
-  border: 1px solid #0f4c81;
+  border: 1px solid var(--color-primary);
   color: #ffffff;
-  background: #0f4c81;
+  background: var(--color-primary);
 }
 
 .primary-button:hover {
-  background: #17669f;
+  background: var(--color-primary-hover);
 }
 
 .secondary-button {
-  border: 1px solid #a9c9e5;
-  color: #17669f;
-  background: #ffffff;
+  border: 1px solid var(--color-border-strong);
+  color: var(--color-primary-hover);
+  background: var(--color-surface);
 }
 
 .secondary-button:hover {
-  background: #edf6ff;
+  background: var(--color-page);
 }
 
 @media (max-width: 900px) {

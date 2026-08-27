@@ -2,7 +2,7 @@
   <section class="detalle-expediente" aria-labelledby="detalle-titulo">
     <div class="detalle-header">
       <div class="detalle-identificacion">
-        <p class="eyebrow">{{ esEdicion() ? 'Edicion del expediente' : 'Consulta del expediente' }}</p>
+        <p class="eyebrow">{{ esEdicion() ? 'Edición del expediente' : 'Consulta del expediente' }}</p>
         <h1 id="detalle-titulo">Expediente</h1>
       </div>
 
@@ -23,7 +23,7 @@
               <label for="estado">Estado
                 <select id="estado" [formField]="formularioEdicion.estado">
                   <option value="pendiente">Pendiente</option>
-                  <option value="tramite">En tramite</option>
+                  <option value="tramite">En trámite</option>
                   <option value="finalizado">Finalizado</option>
                   <option value="archivado">Archivado</option>
                 </select>
@@ -32,13 +32,13 @@
           </section>
 
           <section class="campo-detalle campo-numero">
-            <label for="numero">Numero
+            <label for="numero">Número
               <input id="numero" type="text" [value]="expediente().numero" readonly>
             </label>
           </section>
 
           <section class="campo-detalle campo-titulo">
-            <label for="titulo">Titulo
+            <label for="titulo">Título
               <input id="titulo" type="text" [formField]="formularioEdicion.titulo">
               @if (formularioEdicion.titulo().touched() && formularioEdicion.titulo().invalid()) {
                 @for (error of formularioEdicion.titulo().errors(); track error) {
@@ -92,12 +92,12 @@
         </section>
 
         <section class="campo-detalle campo-numero">
-          <p class="section-label">Numero</p>
+          <p class="section-label">Número</p>
           <p class="campo-valor">{{ expediente().numero }}</p>
         </section>
 
         <section class="campo-detalle campo-titulo">
-          <p class="section-label">Titulo</p>
+          <p class="section-label">Título</p>
           <p class="campo-valor">{{ expediente().titulo }}</p>
         </section>
 

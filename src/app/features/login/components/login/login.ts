@@ -6,14 +6,14 @@ import { Router } from '@angular/router';
   selector: 'app-login',
   imports: [FormField],
   templateUrl: './login.html',
-  styleUrls: ['./login.css'],
+  styleUrl: './login.css',
 })
 export class Login {
   router = inject(Router);
-  
+
   loginModel = signal({
     usuario: '',
-    password: ''
+    password: '',
   });
 
   loginForm = form(this.loginModel, (schemaPath) => {
@@ -23,7 +23,10 @@ export class Login {
 
   login() {
     console.log('Login data de prueba:', this.loginModel());
-    console.log('Login form de prueba:', this.loginForm.usuario().value() + '-' + this.loginForm.password().value());
+    console.log(
+      'Login form de prueba:',
+      this.loginForm.usuario().value() + '-' + this.loginForm.password().value(),
+    );
 
     this.router.navigate(['/expedientes']);
   }

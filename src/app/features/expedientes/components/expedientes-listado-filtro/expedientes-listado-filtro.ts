@@ -8,7 +8,7 @@ import { FiltrosExpediente } from '../../models/filtros-expediente.interface';
   selector: 'app-expedientes-listado-filtro',
   imports: [FormsModule],
   templateUrl: './expedientes-listado-filtro.html',
-  styleUrls: ['./expedientes-listado-filtro.css'],
+  styleUrl: './expedientes-listado-filtro.css',
 })
 export class ExpedientesListadoFiltro {
   estados = input<EstadoExpediente[]>([]);

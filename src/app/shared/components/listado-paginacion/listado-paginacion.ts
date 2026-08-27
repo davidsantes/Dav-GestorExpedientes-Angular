@@ -4,7 +4,7 @@ import { Component, computed, input, output } from '@angular/core';
   selector: 'app-listado-paginacion',
   imports: [],
   templateUrl: './listado-paginacion.html',
-  styleUrls: ['./listado-paginacion.css'],
+  styleUrl: './listado-paginacion.css',
 })
 /**
  * Componente de paginación reutilizable.
@@ -38,8 +38,7 @@ export class ListadoPaginacion {
     return this.paginaActual() >= this.totalPaginas();
   });
 
-  navegarAPagina(pagina: number) 
-  {
+  navegarAPagina(pagina: number) {
     this.cambioPagina.emit(pagina);
   }
 }

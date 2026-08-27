@@ -11,9 +11,8 @@ import { ExpedientesService } from '../../services/expedientes-service';
   selector: 'app-expediente-detalle-page',
   imports: [FormField],
   templateUrl: './expediente-detalle-page.html',
-  styleUrls: ['./expediente-detalle-page.css'],
+  styleUrl: './expediente-detalle-page.css',
 })
-
 export class ExpedienteDetallePage {
   numero = input('');
   modo = input<'consulta' | 'editar'>('consulta');
@@ -23,7 +22,15 @@ export class ExpedienteDetallePage {
 
   expediente: Signal<Expediente> = computed(() => {
     const numero = this.numero();
-    return EXPEDIENTES_MOCK.find(expediente => expediente.numero === numero) || { numero: '', titulo: '', estado: 'tramite', prioridad: 'media', fechaAlta: '' };
+    return (
+      EXPEDIENTES_MOCK.find((expediente) => expediente.numero === numero) || {
+        numero: '',
+        titulo: '',
+        estado: 'tramite',
+        prioridad: 'media',
+        fechaAlta: '',
+      }
+    );
   });
 
   esEdicion = computed(() => this.modo() === 'editar');
@@ -37,7 +44,7 @@ export class ExpedienteDetallePage {
   });
 
   formularioEdicion = form(this.modeloEdicion, (schemaPath) => {
-    required(schemaPath.titulo, { message: 'El titulo es obligatorio' });
+    required(schemaPath.titulo, { message: 'El título es obligatorio' });
     required(schemaPath.fechaAlta, { message: 'La fecha de alta es obligatoria' });
   });
 
@@ -61,9 +68,7 @@ export class ExpedienteDetallePage {
     }
 
     await firstValueFrom(
-      this.expedientesService.actualizarExpediente(
-        this.aExpediente(this.modeloEdicion()),
-      ),
+      this.expedientesService.actualizarExpediente(this.aExpediente(this.modeloEdicion())),
     );
     await this.volver();
   }

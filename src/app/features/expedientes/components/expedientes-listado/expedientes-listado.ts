@@ -5,7 +5,7 @@ import { Expediente } from '../../models/expediente.interface';
   selector: 'app-expedientes-listado',
   imports: [],
   templateUrl: './expedientes-listado.html',
-  styleUrls: ['./expedientes-listado.css'],
+  styleUrl: './expedientes-listado.css',
 })
 export class ExpedientesListado {
   @Input() expedientes: Expediente[] = [];

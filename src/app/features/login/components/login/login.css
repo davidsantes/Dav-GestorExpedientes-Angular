@@ -1,6 +1,5 @@
 .login {
   display: grid;
-  min-height: calc(100vh - 144px);
   place-items: center;
   padding: 2rem 1rem;
 }

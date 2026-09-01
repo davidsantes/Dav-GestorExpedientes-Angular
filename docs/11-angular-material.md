@@ -1,6 +1,8 @@
 # Angular Material
 
-El proyecto incorpora Angular Material 22 para disponer de componentes accesibles y coherentes: formularios, botones, tabla, ordenación, paginación, tarjeta e interfaz de cabecera.
+Angular Material implementa Material Design, el sistema de diseño de Google para crear interfaces coherentes, intuitivas y accesibles. El proyecto incorpora Angular Material 22 para disponer de componentes de formulario, botones, tabla, ordenación, paginación, tarjeta y barra de herramientas.
+
+Material Design aporta criterios de color, tipografía, accesibilidad, elevación y animación. La aplicación utiliza el tema de Material junto con sus propias variables CSS institucionales.
 
 ## Instalación y tema
 
@@ -30,6 +32,14 @@ html {
 ```
 
 Los tokens propios de `src/styles.css` complementan ese tema con los colores institucionales de la aplicación. Los componentes Material reciben sus colores y estados desde el tema.
+
+El comando siguiente puede generar paletas personalizadas a partir de un color:
+
+```bash
+ng generate @angular/material:theme-color --primary-color "#c8102e"
+```
+
+El archivo `_theme-colors.scss` actual fue generado con `#ffffff` como color primario. No se importa desde `src/material-theme.scss`, por lo que no interviene en el tema activo. Para utilizar una paleta generada, hay que importarla desde `material-theme.scss` y usar sus paletas en la configuración de `mat.theme()`.
 
 ## Importaciones en componentes standalone
 
@@ -151,3 +161,22 @@ Para ajustar elementos internos encapsulados por Material, como la flecha de ord
 ```
 
 Se limita a la tabla del listado para no afectar otros componentes Material.
+
+## Feedback al usuario
+
+Como guía para futuros flujos de la aplicación, se recomienda elegir el mecanismo de feedback según el tipo de mensaje:
+
+- **Validación de un campo**: `MatError` dentro de su `mat-form-field`.
+- **Éxito o fallo de una acción no bloqueante:** `MatSnackBar`.
+- **Confirmación importante:** `MatDialog`.
+- **Error bloqueante:** `MatDialog`.
+- **Información persistente o contextual:** mensaje dentro de la página.
+- **Carga o proceso:** `MatProgressSpinner` o `MatProgressBar`.
+
+La guía no implica que todos estos componentes estén implementados. Cada uno se añadirá cuando un flujo concreto lo requiera, importando únicamente su módulo en el componente correspondiente.
+
+## Recursos
+
+- [Material Design](https://m3.material.io/)
+- [Angular Material](https://material.angular.dev/)
+- [Iconos de Material](https://fonts.google.com/icons)

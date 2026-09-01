@@ -63,7 +63,9 @@
           <section class="campo-detalle campo-fecha-alta">
             <mat-form-field appearance="outline">
               <mat-label>Fecha de alta</mat-label>
-              <input id="fecha-alta" matInput type="date" [formField]="formularioEdicion.fechaAlta">
+              <input id="fecha-alta" matInput [matDatepicker]="selectorFechaAlta" [formField]="formularioEdicion.fechaAlta">
+              <mat-datepicker-toggle matIconSuffix [for]="selectorFechaAlta"></mat-datepicker-toggle>
+              <mat-datepicker #selectorFechaAlta></mat-datepicker>
               @if (formularioEdicion.fechaAlta().invalid()) {
                 @for (error of formularioEdicion.fechaAlta().errors(); track error) {
                   <mat-error>{{ error.message }}</mat-error>

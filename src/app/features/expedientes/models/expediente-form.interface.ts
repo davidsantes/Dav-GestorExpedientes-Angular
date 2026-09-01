@@ -6,5 +6,5 @@ export interface ExpedienteForm {
   titulo: string;
   estado: EstadoExpediente;
   prioridad: PrioridadExpediente;
-  fechaAlta: string;
+  fechaAlta: Date | null;
 }

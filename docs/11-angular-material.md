@@ -94,6 +94,21 @@ Los filtros y el detalle en modo edición usan el mismo patrón. Los campos de s
 
 `estados` y `prioridades` proceden de `ESTADOS_EXPEDIENTE` y `PRIORIDADES_EXPEDIENTE`, definidas junto a sus tipos en `models`. Así, los criterios de búsqueda y los valores editables comparten una única fuente de datos.
 
+## Selector de fecha
+
+La edición del expediente usa `MatDatepickerModule` y `MatNativeDateModule`. El selector abre el calendario con la fecha de alta ya seleccionada y permite borrar el valor para que Signal Forms muestre el error de campo obligatorio.
+
+```html
+<mat-form-field appearance="outline">
+	<mat-label>Fecha de alta</mat-label>
+	<input matInput [matDatepicker]="selectorFechaAlta" [formField]="formularioEdicion.fechaAlta">
+	<mat-datepicker-toggle matIconSuffix [for]="selectorFechaAlta"></mat-datepicker-toggle>
+	<mat-datepicker #selectorFechaAlta></mat-datepicker>
+</mat-form-field>
+```
+
+El modelo de edición usa `Date | null` para este control. Antes de guardar, el componente convierte la fecha a `YYYY-MM-DD`, que es el formato del modelo `Expediente`, los datos mock y los filtros.
+
 ## Tabla y ordenación
 
 El listado usa `MatTableModule`, `MatSortModule` y `MatIconModule`. Las cabeceras ordenables llevan `mat-sort-header`; el evento se ordena localmente sin modificar el array recibido por el componente.

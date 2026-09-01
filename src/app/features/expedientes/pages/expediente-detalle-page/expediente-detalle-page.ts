@@ -1,6 +1,8 @@
 import { Component, Signal, computed, effect, inject, input, signal } from '@angular/core';
 import { form, FormField, required } from '@angular/forms/signals';
 import { MatButtonModule } from '@angular/material/button';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
@@ -15,7 +17,7 @@ import { ExpedientesService } from '../../services/expedientes-service';
 
 @Component({
   selector: 'app-expediente-detalle-page',
-  imports: [FormField, MatButtonModule, MatFormFieldModule, MatInputModule, MatSelectModule],
+  imports: [FormField, MatButtonModule, MatDatepickerModule, MatFormFieldModule, MatInputModule, MatNativeDateModule, MatSelectModule],
   templateUrl: './expediente-detalle-page.html',
   styleUrl: './expediente-detalle-page.css',
 })
@@ -49,7 +51,7 @@ export class ExpedienteDetallePage {
     titulo: '',
     estado: 'tramite',
     prioridad: 'media',
-    fechaAlta: '',
+    fechaAlta: null,
   });
 
   formularioEdicion = form(this.modeloEdicion, (schemaPath) => {
@@ -92,7 +94,7 @@ export class ExpedienteDetallePage {
       titulo: expediente.titulo,
       estado: expediente.estado,
       prioridad: expediente.prioridad,
-      fechaAlta: expediente.fechaAlta,
+      fechaAlta: this.aFecha(expediente.fechaAlta),
     };
   }
 
@@ -102,7 +104,29 @@ export class ExpedienteDetallePage {
       titulo: formulario.titulo,
       estado: formulario.estado,
       prioridad: formulario.prioridad,
-      fechaAlta: formulario.fechaAlta,
+      fechaAlta: this.aFechaIso(formulario.fechaAlta),
     };
+  }
+
+  private aFecha(fecha: string): Date | null {
+    const [ano, mes, dia] = fecha.split('-').map(Number);
+
+    if (!ano || !mes || !dia) {
+      return null;
+    }
+
+    return new Date(ano, mes - 1, dia);
+  }
+
+  private aFechaIso(fecha: Date | null): string {
+    if (!fecha) {
+      return '';
+    }
+
+    const ano = fecha.getFullYear();
+    const mes = String(fecha.getMonth() + 1).padStart(2, '0');
+    const dia = String(fecha.getDate()).padStart(2, '0');
+
+    return `${ano}-${mes}-${dia}`;
   }
 }

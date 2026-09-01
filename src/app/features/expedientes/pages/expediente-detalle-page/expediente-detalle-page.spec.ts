@@ -29,6 +29,13 @@ describe('ExpedienteDetallePage', () => {
     expect(component.expediente().titulo).toBe('Solicitud de licencia de actividad 1');
   });
 
+  it('should prepare the expediente date for the datepicker', async () => {
+    fixture.componentRef.setInput('numero', 'EXP-2026-0001');
+    await fixture.whenStable();
+
+    expect(component.modeloEdicion().fechaAlta).toEqual(new Date(2026, 7, 12));
+  });
+
   it('should enable edit mode from the route data input', () => {
     fixture.componentRef.setInput('modo', 'editar');
 

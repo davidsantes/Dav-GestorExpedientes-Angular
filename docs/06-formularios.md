@@ -106,7 +106,7 @@ modeloEdicion = signal<ExpedienteForm>({
   titulo: '',
   estado: 'tramite',
   prioridad: 'media',
-  fechaAlta: '',
+  fechaAlta: null,
 });
 ```
 
@@ -120,6 +120,22 @@ formularioEdicion = form(this.modeloEdicion, (schemaPath) => {
 ```
 
 La plantilla usa `[formField]` en `estado`, `titulo`, `prioridad` y `fechaAlta`. El número se muestra como `readonly` usando `[value]="expediente().numero"`.
+
+`fechaAlta` es `Date | null` dentro de `ExpedienteForm`, para que `MatDatepicker` pueda mostrar el día ya guardado al abrir el calendario. El formulario convierte entre ese valor y la cadena `YYYY-MM-DD` que usa `Expediente` al leer y guardar.
+
+```html
+<mat-form-field appearance="outline">
+  <mat-label>Fecha de alta</mat-label>
+  <input matInput [matDatepicker]="selectorFechaAlta" [formField]="formularioEdicion.fechaAlta">
+  <mat-datepicker-toggle matIconSuffix [for]="selectorFechaAlta"></mat-datepicker-toggle>
+  <mat-datepicker #selectorFechaAlta></mat-datepicker>
+  @if (formularioEdicion.fechaAlta().invalid()) {
+    <mat-error>La fecha de alta es obligatoria</mat-error>
+  }
+</mat-form-field>
+```
+
+Al borrar la fecha, el valor pasa a `null` y la validación `required(...)` muestra el error.
 
 Al guardar:
 

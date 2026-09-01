@@ -6,7 +6,7 @@
 .resultados {
   width: min(100% - 3rem, 1440px);
   margin: 0 auto;
-  padding: 2.5rem 0 0.75rem;
+  padding: 1rem 0 0.75rem;
 }
 
 .eyebrow {
@@ -83,7 +83,7 @@ tr.mat-mdc-row:hover {
 @media (max-width: 768px) {
   .resultados {
     width: min(100% - 1.5rem, 1440px);
-    padding: 1.5rem 0 0.75rem;
+    padding: 0.75rem 0;
   }
 
   .table-wrapper {

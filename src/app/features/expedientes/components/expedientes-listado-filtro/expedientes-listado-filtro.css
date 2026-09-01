@@ -6,7 +6,7 @@
 .filtros {
   width: min(100% - 3rem, 1440px);
   margin: 0 auto;
-  padding: 2.5rem 0;
+  padding: 2.5rem 0 1rem;
 }
 
 .filtros-header {
@@ -71,7 +71,7 @@ h1 {
 @media (max-width: 560px) {
   .filtros {
     width: min(100% - 1.5rem, 1440px);
-    padding: 1.5rem 0;
+    padding: 1.5rem 0 0.75rem;
   }
 
   .filtros-form {

@@ -48,14 +48,18 @@
     <div class="campo">
       <mat-form-field appearance="outline">
         <mat-label>Fecha inicio</mat-label>
-        <input id="fecha-inicio" matInput name="fechaInicio" type="date" [(ngModel)]="filtro.fechaInicio">
+        <input id="fecha-inicio" matInput name="fechaInicio" [matDatepicker]="selectorFechaInicio" [(ngModel)]="fechaInicio">
+        <mat-datepicker-toggle matIconSuffix [for]="selectorFechaInicio"></mat-datepicker-toggle>
+        <mat-datepicker #selectorFechaInicio></mat-datepicker>
       </mat-form-field>
     </div>
 
     <div class="campo">
       <mat-form-field appearance="outline">
         <mat-label>Fecha fin</mat-label>
-        <input id="fecha-fin" matInput name="fechaFin" type="date" [(ngModel)]="filtro.fechaFin">
+        <input id="fecha-fin" matInput name="fechaFin" [matDatepicker]="selectorFechaFin" [(ngModel)]="fechaFin">
+        <mat-datepicker-toggle matIconSuffix [for]="selectorFechaFin"></mat-datepicker-toggle>
+        <mat-datepicker #selectorFechaFin></mat-datepicker>
       </mat-form-field>
     </div>
 

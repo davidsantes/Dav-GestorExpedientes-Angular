@@ -19,4 +19,22 @@ describe('ExpedientesListadoFiltro', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should emit selected dates in ISO format', () => {
+    let filtrosEmitidos: unknown;
+    const filtro = component as unknown as {
+      fechaInicio: Date | null;
+      fechaFin: Date | null;
+    };
+    component.filtrosAplicados.subscribe((filtros) => filtrosEmitidos = filtros);
+    filtro.fechaInicio = new Date(2026, 7, 1);
+    filtro.fechaFin = new Date(2026, 7, 31);
+
+    component.buscar();
+
+    expect(filtrosEmitidos).toMatchObject({
+      fechaInicio: '2026-08-01',
+      fechaFin: '2026-08-31',
+    });
+  });
 });

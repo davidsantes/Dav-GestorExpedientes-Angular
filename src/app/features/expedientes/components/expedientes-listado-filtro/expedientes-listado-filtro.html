@@ -8,76 +8,60 @@
 
   <form class="filtros-form" (ngSubmit)="buscar()">
     <div class="campo campo-expediente">
-      <label for="numero-expediente">Nº expediente</label>
-      <input
-        id="numero-expediente"
-        name="numero"
-        type="search"
-        [(ngModel)]="filtro.numero"
-        placeholder="Ej.: EXP-2026-0001"
-      >
+      <mat-form-field appearance="outline">
+        <mat-label>Nº expediente</mat-label>
+        <input
+          id="numero-expediente"
+          matInput
+          name="numero"
+          type="search"
+          [(ngModel)]="filtro.numero"
+          placeholder="Ej.: EXP-2026-0001"
+        >
+      </mat-form-field>
     </div>
 
     <div class="campo">
-      <label for="estado">Estado</label>
-
-      <select
-        id="estado"
-        name="estado"
-        [(ngModel)]="filtro.estado"
-      >
-        <option value="">Todos los estados</option>
-
-        @for (estado of estados(); track estado) {
-          <option [value]="estado">
-            {{ estado }}
-          </option>
-        }
-      </select>
+      <mat-form-field appearance="outline">
+        <mat-label>Estado</mat-label>
+        <mat-select id="estado" name="estado" [(ngModel)]="filtro.estado">
+          <mat-option value="">Todos los estados</mat-option>
+          @for (estado of estados(); track estado) {
+            <mat-option [value]="estado">{{ estado }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
     </div>
 
     <div class="campo">
-      <label for="prioridad">Prioridad</label>
-
-      <select
-        id="prioridad"
-        name="prioridad"
-        [(ngModel)]="filtro.prioridad"
-      >
-        <option value="">Todas las prioridades</option>
-
-        @for (prioridad of prioridades(); track prioridad) {
-          <option [value]="prioridad">
-            {{ prioridad }}
-          </option>
-        }
-      </select>
+      <mat-form-field appearance="outline">
+        <mat-label>Prioridad</mat-label>
+        <mat-select id="prioridad" name="prioridad" [(ngModel)]="filtro.prioridad">
+          <mat-option value="">Todas las prioridades</mat-option>
+          @for (prioridad of prioridades(); track prioridad) {
+            <mat-option [value]="prioridad">{{ prioridad }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
     </div>
 
     <div class="campo">
-      <label for="fecha-inicio">Fecha inicio</label>
-
-      <input
-        id="fecha-inicio"
-        name="fechaInicio"
-        type="date"
-        [(ngModel)]="filtro.fechaInicio"
-      >
+      <mat-form-field appearance="outline">
+        <mat-label>Fecha inicio</mat-label>
+        <input id="fecha-inicio" matInput name="fechaInicio" type="date" [(ngModel)]="filtro.fechaInicio">
+      </mat-form-field>
     </div>
 
     <div class="campo">
-      <label for="fecha-fin">Fecha fin</label>
-
-      <input
-        id="fecha-fin"
-        name="fechaFin"
-        type="date"
-        [(ngModel)]="filtro.fechaFin"
-      >
+      <mat-form-field appearance="outline">
+        <mat-label>Fecha fin</mat-label>
+        <input id="fecha-fin" matInput name="fechaFin" type="date" [(ngModel)]="filtro.fechaFin">
+      </mat-form-field>
     </div>
 
     <div class="acciones">
       <button
+        matButton="outlined"
         type="button"
         class="secondary-button"
         (click)="limpiar()"
@@ -86,6 +70,7 @@
       </button>
 
       <button
+        matButton="filled"
         type="submit"
         class="primary-button"
       >

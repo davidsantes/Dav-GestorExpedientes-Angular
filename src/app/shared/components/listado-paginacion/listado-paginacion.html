@@ -1,21 +1,10 @@
-<div class="paginacion-container">
-  
-  <button 
-    class="paginacion-btn"
-    [disabled]="primeraPagina()" 
-    (click)="navegarAPagina(paginaActual() - 1)">
-    Anterior
-  </button>
-
-  <span class="paginacion-info">
-    Pagina {{ paginaActual() }} de {{ totalPaginas() }}
-  </span>
-
-  <button 
-    class="paginacion-btn"
-    [disabled]="ultimaPagina()" 
-    (click)="navegarAPagina(paginaActual() + 1)">
-    Siguiente
-  </button>
-
-</div>
+<mat-paginator
+  class="paginacion-container"
+  [length]="totalItems()"
+  [pageIndex]="paginaActual() - 1"
+  [pageSize]="itemsPorPagina()"
+  [hidePageSize]="true"
+  [showFirstLastButtons]="true"
+  aria-label="Paginación de expedientes"
+  (page)="navegarAPagina($event)">
+</mat-paginator>

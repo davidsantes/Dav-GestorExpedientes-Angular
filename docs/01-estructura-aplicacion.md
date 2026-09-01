@@ -1,6 +1,6 @@
 # Estructura de la aplicacion
 
-Este documento explica que contiene la aplicación desde el punto de vista de usuario y de interfaz.
+Este documento explica qué contiene la aplicación desde el punto de vista de usuario y de interfaz.
 
 ## Layout general
 
@@ -82,7 +82,7 @@ flowchart LR
   Wildcard["**"] --> NotFound["NotFoundPage"]
 ```
 
-La ruta raiz redirige a `login`. La ruta `expedientes` carga de forma diferida las rutas de la feature de expedientes. Cualquier ruta no reconocida termina en `NotFoundPage`.
+La ruta raíz redirige a `login`. La ruta `expedientes` carga de forma diferida las rutas de la feature de expedientes. Cualquier ruta no reconocida termina en `NotFoundPage`.
 
 ## Mapa de componentes de expedientes
 

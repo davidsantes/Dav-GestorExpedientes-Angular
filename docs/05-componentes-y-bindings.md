@@ -2,7 +2,7 @@
 
 Angular conecta clases TypeScript y plantillas HTML mediante bindings. Este proyecto usa interpolación, property binding, event binding, two-way binding, inputs y outputs.
 
-## Interpolacion
+## Interpolación
 
 La interpolación muestra valores en la plantilla.
 
@@ -57,7 +57,7 @@ El listado aplica clases según el estado del expediente:
 </span>
 ```
 
-La prioridad usa el mismo patron con `alta`, `media` y `baja`.
+La prioridad usa el mismo patrón con `alta`, `media` y `baja`.
 
 ## Event binding
 
@@ -93,8 +93,8 @@ Este binding sincroniza campo y propiedad: la UI actualiza `filtro`, y `filtro` 
 `ExpedientesListadoFiltro` recibe listas desde su padre:
 
 ```ts
-estados = input<EstadoExpediente[]>([]);
-prioridades = input<PrioridadExpediente[]>([]);
+estados = input<readonly EstadoExpediente[]>([]);
+prioridades = input<readonly PrioridadExpediente[]>([]);
 ```
 
 La plantilla padre las enlaza asi:
@@ -106,13 +106,17 @@ La plantilla padre las enlaza asi:
 
 ## `@Input()`
 
-`ExpedientesListado` usa `@Input()` clásico para recibir expedientes:
+`ExpedientesListado` usa `@Input()` clásico con un setter para recibir los expedientes y actualizar el array que se muestra al ordenar:
 
 ```ts
-@Input() expedientes: Expediente[] = [];
+@Input()
+set expedientes(expedientes: Expediente[]) {
+  this.expedientesOriginales.set(expedientes);
+  this.expedientesOrdenados.set(expedientes);
+}
 ```
 
-El proyecto mezcla `@Input()` clásico en este componente con `input()` moderno en otros componentes.
+El proyecto mezcla `@Input()` clásico en este componente con `input()` moderno en otros componentes. El setter no modifica los datos recibidos: conserva el orden original y permite calcular un orden local para la tabla.
 
 ## `output()`
 

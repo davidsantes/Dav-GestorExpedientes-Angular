@@ -1,19 +1,19 @@
 :root {
-  --color-text: #16324f;
-  --color-text-muted: #52708d;
-  --color-primary: #0f4c81;
-  --color-primary-hover: #17669f;
-  --color-accent: #49a6d8;
+  --color-text: #242021;
+  --color-text-muted: #625b5d;
+  --color-primary: #c8102e;
+  --color-primary-hover: #a50d26;
+  --color-accent: #006f86;
   --color-surface: #ffffff;
-  --color-surface-soft: #f2f8fd;
-  --color-surface-muted: #f8fbfe;
-  --color-page: #edf6ff;
-  --color-page-end: #d9ebff;
-  --color-border: #c7def2;
-  --color-border-strong: #a9c9e5;
-  --color-disabled: #7f9bb5;
-  --color-danger: #b42318;
-  --shadow-surface: 0 8px 22px rgba(15, 76, 129, 0.1);
+  --color-surface-soft: #fff5f6;
+  --color-surface-muted: #fdf9f9;
+  --color-page: #f8f5f5;
+  --color-page-end: #eee7e7;
+  --color-border: #e2c6cb;
+  --color-border-strong: #c99ba4;
+  --color-disabled: #a78b91;
+  --color-danger: #b3261e;
+  --shadow-surface: 0 8px 22px rgba(76, 27, 37, 0.12);
 
   color: var(--color-text);
   background: var(--color-page);
@@ -53,7 +53,7 @@ app-header {
 
 app-footer {
   border-top: 4px solid var(--color-accent);
-  background: #173f67;
+  background: #781226;
 }
 
 app-header p,

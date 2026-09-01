@@ -1,8 +1,9 @@
 import { Component, computed, input, output } from '@angular/core';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-listado-paginacion',
-  imports: [],
+  imports: [MatPaginatorModule],
   templateUrl: './listado-paginacion.html',
   styleUrl: './listado-paginacion.css',
 })
@@ -38,7 +39,7 @@ export class ListadoPaginacion {
     return this.paginaActual() >= this.totalPaginas();
   });
 
-  navegarAPagina(pagina: number) {
-    this.cambioPagina.emit(pagina);
+  navegarAPagina(evento: PageEvent): void {
+    this.cambioPagina.emit(evento.pageIndex + 1);
   }
 }

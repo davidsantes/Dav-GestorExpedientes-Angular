@@ -1,21 +1,30 @@
 import { Component, Signal, computed, effect, inject, input, signal } from '@angular/core';
 import { form, FormField, required } from '@angular/forms/signals';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 import { Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { Expediente } from '../../models/expediente.interface';
 import { ExpedienteForm } from '../../models/expediente-form.interface';
+import { ESTADOS_EXPEDIENTE } from '../../models/estado-expediente.type';
+import { PRIORIDADES_EXPEDIENTE } from '../../models/prioridad-expediente.type';
 import { EXPEDIENTES_MOCK } from '../../data/expedientes.mock';
 import { ExpedientesService } from '../../services/expedientes-service';
 
 @Component({
   selector: 'app-expediente-detalle-page',
-  imports: [FormField],
+  imports: [FormField, MatButtonModule, MatFormFieldModule, MatInputModule, MatSelectModule],
   templateUrl: './expediente-detalle-page.html',
   styleUrl: './expediente-detalle-page.css',
 })
 export class ExpedienteDetallePage {
   numero = input('');
   modo = input<'consulta' | 'editar'>('consulta');
+
+  protected readonly estados = ESTADOS_EXPEDIENTE;
+  protected readonly prioridades = PRIORIDADES_EXPEDIENTE;
 
   private readonly router = inject(Router);
   private readonly expedientesService = inject(ExpedientesService);

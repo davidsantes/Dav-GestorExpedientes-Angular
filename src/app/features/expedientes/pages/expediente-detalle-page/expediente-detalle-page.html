@@ -3,12 +3,11 @@
     <div class="detalle-header">
       <div class="detalle-identificacion">
         <p class="eyebrow">{{ esEdicion() ? 'Edición del expediente' : 'Consulta del expediente' }}</p>
-        <h1 id="detalle-titulo">Expediente</h1>
+        <h1 id="detalle-titulo">Expediente {{ expediente().numero }}</h1>
       </div>
 
       @if (!esEdicion()) {
-        <button class="back-button" type="button" (click)="volver()">
-          <span aria-hidden="true">&larr;</span>
+        <button matButton="outlined" class="back-button" type="button" (click)="volver()">
           Volver al listado
         </button>
       }
@@ -20,58 +19,62 @@
           <section class="campo-detalle campo-estado">
             <p class="section-label">Estado actual</p>
             <div class="estado-principal">
-              <label for="estado">Estado
-                <select id="estado" [formField]="formularioEdicion.estado">
-                  <option value="pendiente">Pendiente</option>
-                  <option value="tramite">En trámite</option>
-                  <option value="finalizado">Finalizado</option>
-                  <option value="archivado">Archivado</option>
-                </select>
-              </label>
+              <mat-form-field appearance="outline">
+                <mat-label>Estado</mat-label>
+                <mat-select id="estado" [formField]="formularioEdicion.estado">
+                  @for (estado of estados; track estado) {
+                    <mat-option [value]="estado">{{ estado }}</mat-option>
+                  }
+                </mat-select>
+              </mat-form-field>
             </div>
           </section>
 
           <section class="campo-detalle campo-numero">
-            <label for="numero">Número
-              <input id="numero" type="text" [value]="expediente().numero" readonly>
-            </label>
+            <mat-form-field appearance="outline">
+              <mat-label>Número</mat-label>
+              <input id="numero" matInput type="text" [value]="expediente().numero" readonly>
+            </mat-form-field>
           </section>
 
           <section class="campo-detalle campo-titulo">
-            <label for="titulo">Título
-              <input id="titulo" type="text" [formField]="formularioEdicion.titulo">
+            <mat-form-field appearance="outline">
+              <mat-label>Título</mat-label>
+              <input id="titulo" matInput type="text" [formField]="formularioEdicion.titulo">
               @if (formularioEdicion.titulo().touched() && formularioEdicion.titulo().invalid()) {
                 @for (error of formularioEdicion.titulo().errors(); track error) {
-                  <span class="error-message" role="alert">{{ error.message }}</span>
+                  <mat-error>{{ error.message }}</mat-error>
                 }
               }
-            </label>
+            </mat-form-field>
           </section>
 
           <section class="campo-detalle campo-prioridad">
-            <label for="prioridad">Prioridad
-              <select id="prioridad" [formField]="formularioEdicion.prioridad">
-                <option value="alta">Alta</option>
-                <option value="media">Media</option>
-                <option value="baja">Baja</option>
-              </select>
-            </label>
+            <mat-form-field appearance="outline">
+              <mat-label>Prioridad</mat-label>
+              <mat-select id="prioridad" [formField]="formularioEdicion.prioridad">
+                @for (prioridad of prioridades; track prioridad) {
+                  <mat-option [value]="prioridad">{{ prioridad }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
           </section>
 
           <section class="campo-detalle campo-fecha-alta">
-            <label for="fecha-alta">Fecha de alta
-              <input id="fecha-alta" type="date" [formField]="formularioEdicion.fechaAlta">
+            <mat-form-field appearance="outline">
+              <mat-label>Fecha de alta</mat-label>
+              <input id="fecha-alta" matInput type="date" [formField]="formularioEdicion.fechaAlta">
               @if (formularioEdicion.fechaAlta().invalid()) {
                 @for (error of formularioEdicion.fechaAlta().errors(); track error) {
-                  <span class="error-message" role="alert">{{ error.message }}</span>
+                  <mat-error>{{ error.message }}</mat-error>
                 }
               }
-            </label>
+            </mat-form-field>
           </section>
         </div>
         <div class="form-actions">
-          <button class="back-button" type="button" (click)="volver()">Cancelar</button>
-          <button class="save-button" type="submit" [disabled]="formularioEdicion().invalid()">Guardar cambios</button>
+          <button matButton="outlined" class="back-button" type="button" (click)="volver()">Cancelar</button>
+          <button matButton="filled" class="save-button" type="submit" [disabled]="formularioEdicion().invalid()">Guardar cambios</button>
         </div>
       </form>
     } @else {
@@ -118,7 +121,7 @@
         </section>
       </div>
       <div class="form-actions">
-        <button class="save-button" type="button" (click)="editar()">Editar expediente</button>
+        <button matButton="filled" class="save-button" type="button" (click)="editar()">Editar expediente</button>
       </div>
     }
   </section>
@@ -127,8 +130,7 @@
     <p class="eyebrow">Expedientes</p>
     <h1>No se encontró el expediente</h1>
     <p>El expediente solicitado no existe o ya no está disponible.</p>
-    <button class="back-button" type="button" (click)="volver()">
-      <span aria-hidden="true">&larr;</span>
+    <button matButton="outlined" class="back-button" type="button" (click)="volver()">
       Volver al listado
     </button>
   </section>

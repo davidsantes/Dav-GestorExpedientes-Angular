@@ -12,6 +12,9 @@ describe('ListadoPaginacion', () => {
 
     fixture = TestBed.createComponent(ListadoPaginacion);
     component = fixture.componentInstance;
+  fixture.componentRef.setInput('itemsPorPagina', 5);
+  fixture.componentRef.setInput('totalItems', 10);
+  fixture.componentRef.setInput('itemsPrevios', 0);
     await fixture.whenStable();
   });
 

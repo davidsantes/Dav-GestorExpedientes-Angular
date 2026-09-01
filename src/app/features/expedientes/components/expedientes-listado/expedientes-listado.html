@@ -1,23 +1,28 @@
 <section class="resultados">
   <div class="table-wrapper">
-    <table>
-      <thead>
-        <tr>
-          <th>Nº expediente</th>
-          <th>Título</th>
-          <th>Estado</th>
-          <th>Prioridad</th>
-          <th>Fecha alta</th>
-          <th>Opciones</th>
-        </tr>
-      </thead>
+    <table mat-table [dataSource]="expedientesOrdenados()" matSort (matSortChange)="ordenar($event)">
+      <ng-container matColumnDef="numero">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header="numero">
+          <mat-icon aria-hidden="true">folder_open</mat-icon>
+          <span>Nº expediente</span>
+        </th>
+        <td mat-cell *matCellDef="let expediente" class="numero">{{ expediente.numero }}</td>
+      </ng-container>
 
-      <tbody>
-        @for (expediente of expedientes; track expediente.numero) {
-          <tr>
-            <td class="numero" data-label="Nº expediente">{{ expediente.numero }}</td>
-            <td data-label="Título">{{ expediente.titulo }}</td>
-            <td data-label="Estado">
+      <ng-container matColumnDef="titulo">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header="titulo">
+          <mat-icon aria-hidden="true">subject</mat-icon>
+          <span>Título</span>
+        </th>
+        <td mat-cell *matCellDef="let expediente">{{ expediente.titulo }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="estado">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header="estado">
+          <mat-icon aria-hidden="true">task_alt</mat-icon>
+          <span>Estado</span>
+        </th>
+        <td mat-cell *matCellDef="let expediente">
               <span
                 class="badge estado"
                 [class.pendiente]="expediente.estado === 'pendiente'"
@@ -27,8 +32,15 @@
               >
                 {{ expediente.estado }}
               </span>
-            </td>
-            <td data-label="Prioridad">
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="prioridad">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header="prioridad">
+          <mat-icon aria-hidden="true">priority_high</mat-icon>
+          <span>Prioridad</span>
+        </th>
+        <td mat-cell *matCellDef="let expediente">
               <span
                 class="badge prioridad"
                 [class.alta]="expediente.prioridad === 'alta'"
@@ -37,20 +49,36 @@
               >
                 {{ expediente.prioridad }}
               </span>
-            </td>
-            <td data-label="Fecha alta">{{ expediente.fechaAlta }}</td>
-            <td data-label="Opciones">
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="fechaAlta">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header="fechaAlta">
+          <mat-icon aria-hidden="true">calendar_today</mat-icon>
+          <span>Fecha alta</span>
+        </th>
+        <td mat-cell *matCellDef="let expediente">{{ expediente.fechaAlta }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="opciones">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-icon aria-hidden="true">visibility</mat-icon>
+          <span>Opciones</span>
+        </th>
+        <td mat-cell *matCellDef="let expediente">
               <button
+                matButton="outlined"
                 type="button"
                 class="edit-button"
                 (click)="seleccionar(expediente)"
               >
                 Consultar
               </button>
-            </td>
-          </tr>
-        }
-      </tbody>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="columnas"></tr>
+      <tr mat-row *matRowDef="let row; columns: columnas;"></tr>
     </table>
   </div>
 </section>

@@ -43,17 +43,26 @@ export interface ExpedientesListadoRespuesta {
 
 ## `type` y union types
 
-Los estados y prioridades se modelan como uniones de literales:
+Los estados y prioridades se declaran como constantes de valores válidos. `as const` conserva cada literal y permite derivar los tipos desde los datos:
 
 ```ts
-export type EstadoExpediente = 'pendiente' | 'tramite' | 'finalizado' | 'archivado';
+export const ESTADOS_EXPEDIENTE = [
+  'pendiente',
+  'tramite',
+  'finalizado',
+  'archivado',
+] as const;
+
+export type EstadoExpediente = (typeof ESTADOS_EXPEDIENTE)[number];
 ```
 
 ```ts
-export type PrioridadExpediente = 'alta' | 'media' | 'baja';
+export const PRIORIDADES_EXPEDIENTE = ['alta', 'media', 'baja'] as const;
+
+export type PrioridadExpediente = (typeof PRIORIDADES_EXPEDIENTE)[number];
 ```
 
-Esto limita los valores válidos durante compilacion.
+Esto limita los valores válidos durante compilación y proporciona las listas que usan los filtros y el formulario de edición.
 
 ## Union con cadena vacia
 
@@ -72,15 +81,11 @@ El mock declara un array de expedientes:
 export const EXPEDIENTES_MOCK: Expediente[] = [...]
 ```
 
-`ExpedientesPage` declara listas de estados y prioridades:
+`ExpedientesPage` reutiliza las listas compartidas:
 
 ```ts
-protected estados: EstadoExpediente[] = [
-  'pendiente',
-  'tramite',
-  'finalizado',
-  'archivado',
-];
+protected readonly estados = ESTADOS_EXPEDIENTE;
+protected readonly prioridades = PRIORIDADES_EXPEDIENTE;
 ```
 
 ## Genéricos

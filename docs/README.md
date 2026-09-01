@@ -62,8 +62,14 @@ Recorrido paso a paso desde la UI hasta la respuesta mock y vuelta al template.
 
 Interfaces, tipos union, genéricos, `Partial`, arrays tipados y tipos importados desde el código real.
 
-## 11. Decisiones técnicas
+## 11. Angular Material
 
-[11 - Decisiones técnicas](11-decisiones-tecnicas.md)
+[11 - Angular material](11-angular-material.md)
+
+Tema Material 3, formularios, botones, tabla ordenable, iconos, paginación, tarjeta y barra de herramientas usados en la aplicación.
+
+## 12. Decisiones técnicas
+
+[12 - Decisiones técnicas](12-decisiones-tecnicas.md)
 
 Decisiones documentadas e interpretaciones basadas en la implementación.

@@ -6,7 +6,7 @@
 .resultados {
   width: min(100% - 3rem, 1440px);
   margin: 0 auto;
-  padding: 2.5rem 0;
+  padding: 2.5rem 0 0.75rem;
 }
 
 .eyebrow {
@@ -32,35 +32,45 @@ h1 {
   box-shadow: var(--shadow-surface);
 }
 
-table {
+table.mat-mdc-table {
   width: 100%;
   min-width: 850px;
-  border-collapse: collapse;
-  text-align: left;
 }
 
-th,
-td {
+th.mat-mdc-header-cell,
+td.mat-mdc-cell {
   padding: 1rem 1.1rem;
-  border-bottom: 1px solid #e1edf7;
 }
 
-th {
+th.mat-mdc-header-cell {
   color: #ffffff;
   background: var(--color-primary);
   font-size: 0.85rem;
   font-weight: 700;
 }
 
-td {
-  color: #294966;
+th.mat-mdc-header-cell mat-icon {
+  width: 1rem;
+  height: 1rem;
+  margin-right: 0.35rem;
+  vertical-align: -0.18rem;
+  font-size: 1rem;
 }
 
-tbody tr:last-child td {
+::ng-deep th.mat-mdc-header-cell .mat-sort-header-container,
+::ng-deep th.mat-mdc-header-cell .mat-sort-header-arrow {
+  color: #ffffff;
+}
+
+td.mat-mdc-cell {
+  color: var(--color-text);
+}
+
+tr.mat-mdc-row:last-child td.mat-mdc-cell {
   border-bottom: 0;
 }
 
-tbody tr:hover {
+tr.mat-mdc-row:hover {
   background: var(--color-surface-soft);
 }
 
@@ -70,27 +80,10 @@ tbody tr:hover {
   white-space: nowrap;
 }
 
-.edit-button {
-  padding: 0.45rem 0.8rem;
-  border: 1px solid var(--color-primary-hover);
-  border-radius: 5px;
-  color: var(--color-primary-hover);
-  background: var(--color-surface);
-  cursor: pointer;
-  font: inherit;
-  font-size: 0.85rem;
-  font-weight: 600;
-}
-
-.edit-button:hover {
-  color: #ffffff;
-  background: var(--color-primary-hover);
-}
-
 @media (max-width: 768px) {
   .resultados {
     width: min(100% - 1.5rem, 1440px);
-    padding: 1.5rem 0;
+    padding: 1.5rem 0 0.75rem;
   }
 
   .table-wrapper {
@@ -100,65 +93,4 @@ tbody tr:hover {
     overflow-x: visible;
   }
 
-  table {
-    min-width: 0;
-  }
-
-  thead {
-    display: none;
-  }
-
-  tbody {
-    display: grid;
-    gap: 0.85rem;
-  }
-
-  tbody tr {
-    display: block;
-    border: 1px solid var(--color-border);
-    border-radius: 10px;
-    background: var(--color-surface);
-    box-shadow: var(--shadow-surface);
-    overflow: hidden;
-  }
-
-  tbody tr:hover {
-    background: var(--color-surface);
-  }
-
-  td {
-    display: grid;
-    grid-template-columns: 7.5rem 1fr;
-    gap: 0.7rem;
-    align-items: center;
-    padding: 0.8rem 1rem;
-    border-bottom: 1px solid #e1edf7;
-    font-size: 0.92rem;
-  }
-
-  td::before {
-    content: attr(data-label);
-    color: var(--color-text-muted);
-    font-size: 0.78rem;
-    font-weight: 700;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-  }
-
-  td:last-child {
-    border-bottom: 0;
-  }
-
-  td[data-label='Opciones'] {
-    grid-template-columns: 1fr;
-  }
-
-  td[data-label='Opciones']::before {
-    display: none;
-  }
-
-  .edit-button {
-    width: 100%;
-    min-height: 2.45rem;
-  }
 }

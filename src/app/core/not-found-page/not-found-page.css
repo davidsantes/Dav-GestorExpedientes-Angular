@@ -14,15 +14,21 @@
   padding: 4rem 1rem;
 }
 
-.not-found__codigo {
-  font-size: 6rem;
+.not-found__eyebrow {
+  margin: 0 0 0.35rem;
+  color: var(--color-accent);
+  font-size: 0.8rem;
   font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.not-found h1 {
   margin: 0;
   color: var(--color-primary);
 }
 
 .not-found__mensaje {
-  font-size: 1.25rem;
   margin: 0.5rem 0 2rem;
   color: var(--color-text-muted);
 }

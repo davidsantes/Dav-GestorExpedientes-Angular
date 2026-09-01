@@ -1,4 +1,4 @@
-# Decisiones tecnicas
+# Decisiones técnicas
 
 Este documento distingue entre decisiones documentadas en el código/README anterior e interpretaciones basadas en la implementacion actual.
 

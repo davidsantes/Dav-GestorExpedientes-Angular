@@ -3,10 +3,10 @@ import { rxResource } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import { ExpedientesListadoFiltro } from '../../components/expedientes-listado-filtro/expedientes-listado-filtro';
 import { ExpedientesListado } from '../../components/expedientes-listado/expedientes-listado';
-import { EstadoExpediente } from '../../models/estado-expediente.type';
+import { ESTADOS_EXPEDIENTE, EstadoExpediente } from '../../models/estado-expediente.type';
 import { Expediente } from '../../models/expediente.interface';
 import { FiltrosExpediente } from '../../models/filtros-expediente.interface';
-import { PrioridadExpediente } from '../../models/prioridad-expediente.type';
+import { PRIORIDADES_EXPEDIENTE, PrioridadExpediente } from '../../models/prioridad-expediente.type';
 import { ExpedientesService } from '../../services/expedientes-service';
 import { ListadoPaginacion } from '../../../../shared/components/listado-paginacion/listado-paginacion';
 
@@ -39,18 +39,8 @@ export class ExpedientesPage {
 
   protected readonly resultadosPorPagina = 5;
 
-  protected estados: EstadoExpediente[] = [
-    'pendiente',
-    'tramite',
-    'finalizado',
-    'archivado',
-  ];
-
-  protected prioridades: PrioridadExpediente[] = [
-    'alta',
-    'media',
-    'baja',
-  ];
+  protected readonly estados = ESTADOS_EXPEDIENTE;
+  protected readonly prioridades = PRIORIDADES_EXPEDIENTE;
 
   protected recursoExpedientes = rxResource({
     params: () => ({

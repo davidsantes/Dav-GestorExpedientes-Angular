@@ -1,8 +1,9 @@
-import { Component, Input, output, signal } from '@angular/core';
+import { Component, computed, inject, Input, output, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSortModule, Sort } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
+import { AuthService } from '../../../../core/services/auth-service';
 import { Expediente } from '../../models/expediente.interface';
 
 @Component({
@@ -12,13 +13,18 @@ import { Expediente } from '../../models/expediente.interface';
   styleUrl: './expedientes-listado.css',
 })
 export class ExpedientesListado {
+  private readonly authService = inject(AuthService);
+
   @Input()
   set expedientes(expedientes: Expediente[]) {
     this.expedientesOriginales.set(expedientes);
     this.expedientesOrdenados.set(expedientes);
   }
 
-  protected readonly columnas = ['numero', 'titulo', 'estado', 'prioridad', 'fechaAlta', 'opciones'];
+  protected readonly columnas = computed(() => {
+    const columnas = ['numero', 'titulo', 'estado', 'prioridad', 'fechaAlta'];
+    return this.authService.esUsuarioEditor() ? [...columnas, 'opciones'] : columnas;
+  });
   protected readonly expedientesOrdenados = signal<Expediente[]>([]);
   private readonly expedientesOriginales = signal<Expediente[]>([]);
 

@@ -38,7 +38,7 @@ h1 {
   text-align: center;
 }
 
-form {
+form.login-form {
   display: grid;
   gap: 0.7rem;
 }
@@ -60,4 +60,33 @@ mat-form-field {
 .login-submit {
   width: 100%;
   margin-top: 0.5rem;
+}
+
+.test-users {
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+}
+
+.test-users h2 {
+  margin: 0 0 0.5rem;
+  color: var(--color-text);
+  font-size: 1rem;
+}
+
+.test-users p {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 0.35rem 0;
+}
+
+.test-users strong {
+  color: var(--color-primary);
+}
+
+.test-users span {
+  text-align: right;
 }

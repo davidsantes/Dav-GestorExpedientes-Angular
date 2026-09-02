@@ -1,14 +1,16 @@
 import { Routes } from '@angular/router';
-import { Login } from './features/login/components/login/login';
-import { NotFoundPage } from './core/not-found-page/not-found-page';
+import { Login } from './features/auth/components/login';
+import { NotFoundPage } from './core/layout/not-found-page/not-found-page';
+import { authGuard } from './core/guards/auth-guard';
+import { rolGuard } from './core/guards/rol-guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: Login },
   {
-      path: 'expedientes',
-      //Lazy loading de las rutas de expedientes
-      loadChildren: () => import('./features/expedientes/expedientes.routes').then(m => m.routes) 
-  },  
+    path: 'expedientes',
+    loadChildren: () => import('./features/expedientes/expedientes.routes').then(m => m.routes),
+    canActivate: [authGuard]
+  },
   { path: '**', component: NotFoundPage },
 ];

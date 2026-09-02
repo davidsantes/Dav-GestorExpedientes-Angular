@@ -1,0 +1,41 @@
+import { computed, inject, Service, signal } from '@angular/core';
+import { LoginRequest, LoginResponse } from '../../features/auth/models/auth.interface';
+import { Observable, tap } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { leerToken } from '../auth/token.util';
+
+const SESSION_KEY = 'tienda-online.sesion';
+
+@Service()
+export class AuthService {
+    httpClient = inject(HttpClient);
+
+    session = signal<LoginResponse | null>(this.recuperarSesion());
+
+    estaAutenticado = computed(() => this.session() !== null);
+    nombreUsuarioAutenticado = computed(() => this.session()?.user ?? null);
+    esUsuarioEditor = computed(() => this.session()?.rol == 'EDITOR');
+
+    login(credenciales: LoginRequest): Observable<LoginResponse>{
+        return this.httpClient.post<LoginResponse>('/api/auth/login', credenciales).pipe(
+            tap((response) => this.guardarSesion(response))
+        )
+    }
+
+    logout(): void {
+        this.session.set(null);
+        localStorage.removeItem(SESSION_KEY);
+    }
+
+    private guardarSesion(response: LoginResponse): void {
+        if (!leerToken(response.token)) throw new Error('Token inválido');
+        this.session.set(response);
+        localStorage.setItem(SESSION_KEY, JSON.stringify(response));
+    }
+
+    private recuperarSesion(): LoginResponse | null {
+        const sesionAlmacenada = localStorage.getItem(SESSION_KEY);
+        if (!sesionAlmacenada) return null;
+        return JSON.parse(sesionAlmacenada);
+    }
+}

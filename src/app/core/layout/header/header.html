@@ -1,0 +1,14 @@
+<mat-toolbar>
+	<h1>{{ titulo }}</h1>
+
+	@if (autenticado()) {
+		<nav aria-label="Navegación principal">
+			<a routerLink="/expedientes">Expedientes</a>
+		</nav>
+
+		<div class="logout">
+			<span>{{ nombreUsuarioAutenticado() }}</span>
+			<button matButton type="button" (click)="logout.emit()">Salir</button>
+		</div>
+	}
+</mat-toolbar>

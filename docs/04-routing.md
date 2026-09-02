@@ -21,6 +21,7 @@ export const routes: Routes = [
   {
     path: 'expedientes',
     loadChildren: () => import('./features/expedientes/expedientes.routes').then((m) => m.routes),
+    canActivate: [authGuard],
   },
   { path: '**', component: NotFoundPage },
 ];
@@ -31,10 +32,15 @@ export const routes: Routes = [
 ```ts
 export const routes: Routes = [
   { path: '', component: ExpedientesPage },
-  { path: ':numero', component: ExpedienteDetallePage },
+  {
+    path: ':numero',
+    component: ExpedienteDetallePage,
+    canActivate: [rolGuard],
+  },
   {
     path: ':numero/editar',
     component: ExpedienteDetallePage,
+    canActivate: [rolGuard],
     data: { modo: 'editar' },
   },
 ];
@@ -74,12 +80,19 @@ this.router.navigate(['/expedientes'], {
 
 Cuando cambia la página, se conservan los filtros actuales y se actualiza `numeroPagina`.
 
-## Navegacion
+## Navegacion y autorización
 
-El login navega a expedientes:
+La feature de expedientes requiere una sesión mediante `authGuard`. Dentro de ella, el listado está disponible para lectores y editores; las rutas de detalle y edición requieren `rolGuard`, que solo permite el rol `EDITOR`.
+
+Tras iniciar sesión, el login recupera la ruta almacenada por el interceptor en `returnUrl`. Si no existe una ruta interna válida, usa `/expedientes`:
 
 ```ts
-this.router.navigate(['/expedientes']);
+const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
+const destino = returnUrl?.startsWith('/') && !returnUrl.startsWith('//')
+  ? returnUrl
+  : '/expedientes';
+
+await this.router.navigateByUrl(destino);
 ```
 
 El listado abre el detalle:

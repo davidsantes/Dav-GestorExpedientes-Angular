@@ -54,34 +54,42 @@ Al limpiar, reinicia el objeto y emite `null`.
 
 ## Formulario de login
 
-Archivo principal: `src/app/features/login/components/login`.
+Archivo principal: `src/app/features/auth/components/login`.
 
-El login usa Signal Forms:
+El login usa Signal Forms y un modelo compatible con `LoginRequest`:
 
 ```ts
-loginModel = signal({
-  usuario: '',
-  password: '',
+readonly loginModel = signal({
+  user: '',
+  pass: '',
 });
 
-loginForm = form(this.loginModel, (schemaPath) => {
-  required(schemaPath.usuario, { message: 'El usuario es obligatorio' });
-  required(schemaPath.password, { message: 'La contrasena es obligatoria' });
+readonly loginForm = form(this.loginModel, (schemaPath) => {
+  required(schemaPath.user, { message: 'El usuario es obligatorio' });
+  required(schemaPath.pass, { message: 'La contraseña es obligatoria' });
+}, {
+  submission: {
+    action: async (model) => {
+      await firstValueFrom(this.authService.login(model().value()));
+    },
+  },
 });
 ```
 
-La plantilla conecta controles nativos con `[formField]`:
+La plantilla conecta el formulario con `[formRoot]` y los controles con `[formField]`:
 
 ```html
-<input id="usuario" type="text" [formField]="loginForm.usuario" />
-<input id="password" type="password" [formField]="loginForm.password" />
+<form [formRoot]="loginForm">
+  <input id="usuario" type="text" [formField]="loginForm.user" />
+  <input id="password" type="password" [formField]="loginForm.pass" />
+</form>
 ```
 
 La validación se muestra cuando el campo esta tocado e inválido:
 
 ```html
-@if (loginForm.usuario().touched() && loginForm.usuario().invalid()) { @for (error of
-loginForm.usuario().errors(); track error) {
+@if (loginForm.user().touched() && loginForm.user().invalid()) { @for (error of
+loginForm.user().errors(); track error) {
 <p class="error-message">{{ error.message }}</p>
 } }
 ```
@@ -89,10 +97,10 @@ loginForm.usuario().errors(); track error) {
 El botón se deshabilita con:
 
 ```html
-[disabled]="loginForm().invalid()"
+[disabled]="loginForm().invalid() || loginForm().submitting()"
 ```
 
-La acción de login no comprueba credenciales reales; navega a `/expedientes`.
+La acción de envío llama a `AuthService.login(...)`. Si las credenciales son incorrectas, devuelve un error asociado al campo `pass`; si son válidas, recupera `returnUrl` y navega a la ruta previa o a `/expedientes`.
 
 ## Formulario de edición de expediente
 

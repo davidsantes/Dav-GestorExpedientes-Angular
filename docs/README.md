@@ -68,8 +68,14 @@ Interfaces, tipos union, genéricos, `Partial`, arrays tipados y tipos importado
 
 Tema Material 3, formularios, botones, tabla ordenable, iconos, paginación, tarjeta y barra de herramientas usados en la aplicación.
 
-## 12. Decisiones técnicas
+## 12 - Autenticación / Autorización
 
-[12 - Decisiones técnicas](12-decisiones-tecnicas.md)
+[12 - Autenticación / Autorización](12-autenticacion-autorizacion.md)
+
+Uso de autenticación y autorización en el sistema, usando diferentes roles.
+
+## 13. Decisiones técnicas
+
+[13 - Decisiones técnicas](13-decisiones-tecnicas.md)
 
 Decisiones documentadas e interpretaciones basadas en la implementación.

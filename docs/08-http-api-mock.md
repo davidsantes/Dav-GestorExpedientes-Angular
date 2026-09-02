@@ -4,10 +4,14 @@ La aplicación simula una API HTTP sin backend real. El servicio hace llamadas c
 
 ## Configuracion de HttpClient
 
-`app.config.ts` registra `HttpClient` y el interceptor:
+`app.config.ts` registra `HttpClient` y tres interceptores:
 
 ```ts
-provideHttpClient(withInterceptors([mockApiInterceptor]));
+provideHttpClient(withInterceptors([
+  authTokenInterceptor,
+  authMockInterceptor,
+  mockApiInterceptor,
+]));
 ```
 
 ## Servicio
@@ -28,6 +32,8 @@ export class ExpedientesService {
 | `GET`  | `/api/expedientes`         | Servicio e interceptor | Usado por el listado con filtros y paginacion.                   |
 | `GET`  | `/api/expedientes/:numero` | Servicio e interceptor | Soportado, pero la página de detalle actual lee el mock directo. |
 | `PUT`  | `/api/expedientes/:numero` | Servicio e interceptor | Usado al guardar la edición.                                     |
+| `POST` | `/api/auth/login` | AuthService e interceptor | Autentica y devuelve token, usuario y rol. |
+| `GET` | `/api/auth/perfil` | Interceptor de autenticación | Devuelve el perfil de la sesión mock. |
 
 ## HttpParams
 
@@ -54,7 +60,14 @@ Los parámetros soportados son:
 - `skip`
 - `limit`
 
-## Interceptor mock
+## Interceptores
+
+`authTokenInterceptor` añade `Authorization: Bearer <token>` a las peticiones. Si recibe un `401`, elimina la sesión y redirige a `/login` con el query param `returnUrl`.
+
+`authMockInterceptor` simula las cuentas, la emisión de tokens y la autorización por roles. Puede devolver:
+
+- `401`: credenciales incorrectas, token ausente o sesión caducada.
+- `403`: sesión válida, pero el rol no tiene permiso para la operación.
 
 `mockApiInterceptor` intercepta:
 
@@ -91,13 +104,17 @@ flowchart LR
   Component[Componente o pagina]
   Service[ExpedientesService]
   HttpClient[HttpClient]
+  Token[authTokenInterceptor]
+  AuthMock[authMockInterceptor]
   Interceptor[mockApiInterceptor]
   Mock[EXPEDIENTES_MOCK]
   Response[HttpResponse]
 
   Component --> Service
   Service --> HttpClient
-  HttpClient --> Interceptor
+  HttpClient --> Token
+  Token --> AuthMock
+  AuthMock --> Interceptor
   Interceptor --> Mock
   Mock --> Response
   Response --> Component

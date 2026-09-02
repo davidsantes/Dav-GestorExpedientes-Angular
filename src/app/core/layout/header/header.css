@@ -28,7 +28,8 @@ nav {
 	margin-left: 3rem;
 }
 
-a {
+nav a,
+.logout button {
 	padding: 0.625rem 0.875rem;
 	border-radius: 6px;
 	color: #ffffff;
@@ -37,16 +38,21 @@ a {
 	transition: background-color 0.2s;
 }
 
-a:hover {
+nav a:hover,
+.logout button:hover {
 	background-color: rgb(255 255 255 / 15%);
 }
 
-a:focus-visible {
+nav a:focus-visible,
+.logout button:focus-visible {
 	outline: 2px solid #ffffff;
 	outline-offset: 2px;
 }
 
 .logout {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
 	margin-left: auto;
 }
 

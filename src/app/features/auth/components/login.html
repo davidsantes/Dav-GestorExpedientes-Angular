@@ -1,0 +1,47 @@
+<section class="login" aria-labelledby="login-title">
+  <mat-card class="login-card">
+    <p class="eyebrow">Acceso al portal</p>
+    <h1 id="login-title">Iniciar sesión</h1>
+    <p class="subtitle">Introduce tus credenciales para continuar</p>
+
+    <form class="login-form" [formRoot]="loginForm">
+      <div class="form-group">
+        <mat-form-field appearance="outline">
+          <mat-label>Usuario</mat-label>
+          <input id="usuario" matInput type="text" [formField]="loginForm.user">
+        </mat-form-field>
+        @if (loginForm.user().touched() && loginForm.user().invalid()) {
+          @for (error of loginForm.user().errors(); track error) {
+            <p class="error-message" role="alert">{{ error.message }}</p>
+          }
+        }
+      </div>
+
+      <div class="form-group">
+        <mat-form-field appearance="outline">
+          <mat-label>Contraseña</mat-label>
+          <input id="password" matInput type="password" [formField]="loginForm.pass">
+        </mat-form-field>
+        @if (loginForm.pass().touched() && loginForm.pass().invalid()) {
+          @for (error of loginForm.pass().errors(); track error) {
+            <p class="error-message" role="alert">{{ error.message }}</p>
+          }
+        }
+      </div>
+
+      <button
+        matButton="filled"
+        class="login-submit"
+        type="submit"
+        [disabled]="loginForm().invalid() || loginForm().submitting()">
+        {{ loginForm().submitting() ? 'Accediendo...' : 'Iniciar sesión' }}
+      </button>
+    </form>
+
+    <aside class="test-users" aria-label="Credenciales de prueba">
+      <h2>Accesos de prueba</h2>
+      <p><strong>admin / admin</strong><span>Editor: listado y detalle</span></p>
+      <p><strong>user / user</strong><span>Lector: listado y filtros</span></p>
+    </aside>
+  </mat-card>
+</section>

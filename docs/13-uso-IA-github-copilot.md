@@ -59,6 +59,7 @@ Los skills disponibles actualmente en este repositorio son:
 | `angular-new-app` | Creación de nuevas aplicaciones Angular mediante Angular CLI. |
 | `angular-design-corporate` | Diseño corporativo, Angular Material, accesibilidad, tokens visuales y responsive. |
 | `angular-testing` | Estrategia de testing, selección de casos por riesgo, calidad de tests, documentación de pruebas y corrección de regresiones. |
+| `git-workflow` | Flujo Git del repositorio, revisión de diffs, Conventional Commits, ramas, PRs y protección de cambios ajenos. |
 
 Se encuentran en:
 
@@ -76,13 +77,15 @@ Se encuentran en:
 |       |-- angular-patterns.md
 |       |-- design-system.md
 |       `-- responsive-design.md
-`-- angular-testing/
+|-- angular-testing/
     |-- SKILL.md
     `-- references/
         |-- angular-testing.md
         |-- documentation.md
         |-- test-quality.md
         `-- testing-strategy.md
+`-- git-workflow/
+    `-- SKILL.md
 ````
 
 Cada skill tiene un `SKILL.md` con las instrucciones principales. La carpeta `references/` contiene documentación detallada que el agente puede consultar cuando necesita profundizar en un tema.
@@ -91,7 +94,9 @@ El skill corporativo se ha adaptado a la identidad visual del proyecto. Tiene en
 
 El skill de testing complementa al skill general de Angular. Debe utilizarse cuando la tarea consista en crear, revisar o corregir pruebas. Prioriza comportamiento observable y riesgo funcional por encima de generar specs mecánicos. Sus referencias separan estrategia, APIs de testing Angular, calidad de tests y documentación.
 
-`skills-lock.json` bloquea las skills instaladas desde fuentes externas. En el estado actual del repositorio aparecen bloqueadas `angular-developer` y `angular-new-app`, procedentes de `angular/skills`. Las skills personalizadas o mantenidas en el propio repositorio, como `angular-design-corporate` y `angular-testing`, viven en `.agents/skills/` y deben revisarse junto con el código cuando cambien las convenciones del proyecto.
+El skill de Git define cómo debe preparar cambios el agente cuando se pidan commits, ramas o revisiones del historial. Usa Conventional Commits, exige revisar `git status` y `git diff`, y recuerda no mezclar ni revertir cambios ajenos.
+
+`skills-lock.json` bloquea las skills instaladas desde fuentes externas. En el estado actual del repositorio aparecen bloqueadas `angular-developer` y `angular-new-app`, procedentes de `angular/skills`. Las skills personalizadas o mantenidas en el propio repositorio, como `angular-design-corporate`, `angular-testing` y `git-workflow`, viven en `.agents/skills/` y deben revisarse junto con el código cuando cambien las convenciones del proyecto.
 
 La estrategia concreta de pruebas del proyecto se documenta en [14 - Testing](14-testing.md).
 

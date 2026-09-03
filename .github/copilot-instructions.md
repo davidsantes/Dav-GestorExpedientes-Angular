@@ -1,72 +1,44 @@
-# Copilot Instructions - Gestor de Expedientes
-
-## Contexto del proyecto
-- Proyecto Angular 22 con TypeScript.
-- Se usan componentes standalone.
-- La estructura principal sigue el patrón feature-first.
-- El dominio de la aplicación es español: expediente, estado, prioridad, filtro, detalle.
-
-## Arquitectura
-- Mantener la organización por feature dentro de `src/app/features/`:
-  - `components/`
-  - `pages/`
-  - `services/`
-  - `models/`
-  - `data/`
-  - `*.routes.ts`
-- Preferir lógica de negocio en servicios y no en los componentes.
-- Reutilizar patrones ya existentes del proyecto.
-- Mantener rutas con lazy loading cuando se añadan nuevas secciones de expedientes.
-
-## Estilo de código
-- Usar PascalCase para clases y componentes.
-- Usar camelCase para propiedades, métodos y variables.
-- Preferir `inject()` sobre inyección por constructor cuando el proyecto lo permita.
-- Usar `@Component({ imports: [...], templateUrl, styleUrl })` en los componentes.
-- Para datos reactivos, preferir `input()`, `computed()`, `resource()` si encaja con el patrón actual.
-- Mantener `private readonly` para dependencias inyectadas y propiedades internas.
-- Evitar código duplicado y crear utilidades solo si realmente se reutiliza.
-
-## Angular Material y estilos
-- Importar únicamente los módulos de Angular Material que utiliza cada componente standalone.
-- Mantener el tema Material 3 definido en `src/material-theme.scss`, con paleta primaria roja y terciaria cian.
-- Reutilizar los componentes ya adoptados: `MatCard`, `MatToolbar`, `MatFormField`, `MatInput`, `MatSelect`, `MatTable`, `MatSort`, `MatPaginator` y `MatIcon`.
-- No aplicar selectores CSS genéricos como `button`, `input`, `select` o `label` sobre vistas que usen Angular Material; usar selectores específicos del componente Material o clases propias.
-- Mantener los colores institucionales definidos como variables CSS en `src/styles.css` y respetar contraste y foco accesible.
-- Usar `mat-sort-header` para columnas ordenables y conservar el array recibido sin mutarlo al ordenar datos localmente.
-
-## Routing
-- Mantener la estructura actual de rutas:
-  - `/login`
-  - `/expedientes`
-  - `/expedientes/:numero`
-- Cuando se añadan filtros, usarlos con query params y navegación mediante `router.navigate(...)`.
-- No cambiar la navegación global sin justificarlo.
-
-## Servicios y modelos
-- Los servicios deben encapsular llamadas HTTP y transformación de datos.
-- Los `interface` y `type` deben vivir en `models/` y reutilizarse en toda la feature.
-- Evitar hardcodear valores del dominio en varios sitios; centralizarlos en modelos o enums.
-
-## Testing
-- Añadir tests para lógica de negocio, servicios y flujos de navegación importantes.
-- Mantener tests simples y cercanos al comportamiento real.
-- No probar mocks de forma aislada si se puede verificar comportamiento real.
-
-## Documentación
-- Mantener `README.md` y los documentos de `docs/` en español, incluidos los acentos.
-- Basar ejemplos y descripciones en el código actual, sin documentar APIs, rutas, componentes o estructuras inexistentes.
-- Al añadir o renumerar documentos, actualizar `docs/README.md` y comprobar sus enlaces relativos.
-- Documentar los cambios relevantes de Angular Material, los datos de dominio compartidos y los flujos de interfaz cuando cambien.
-
-## Generación de código
-- Seguir el estilo actual del proyecto antes que inventar una nueva convención.
-- Preferir cambios pequeños y consistentes con la estructura ya existente.
-- Si existe un patrón en el proyecto, usar ese patrón en lugar de crear uno nuevo.
-- Generar código claro, legible y listo para Angular 22.
-
-## Validación
-- Al terminar cambios, validar con comandos relevantes del proyecto como:
-  - Para cambios de interfaz o configuración: `npm run build`.
-  - Para cambios de lógica: `npm test` o pruebas específicas.
-  - Antes de crear un commit: `git diff --check`.
+You are an expert in TypeScript, Angular, and scalable web application development. You write functional, maintainable, performant, and accessible code following Angular and TypeScript best practices.
+## TypeScript Best Practices
+- Use strict type checking
+- Prefer type inference when the type is obvious
+- Avoid the `any` type; use `unknown` when type is uncertain
+## Angular Best Practices
+- Always use standalone components over NgModules
+- Must NOT set `standalone: true` inside Angular decorators. It's the default in Angular v20+.
+- Do NOT set `changeDetection: ChangeDetectionStrategy.OnPush` explicitly. `OnPush` is the default in Angular v22+.
+- Use signals for state management
+- Implement lazy loading for feature routes
+- Do NOT use the `@HostBinding` and `@HostListener` decorators. Put host bindings inside the `host` object of the `@Component` or `@Directive` decorator instead
+- Use `NgOptimizedImage` for all static images.
+  - `NgOptimizedImage` does not work for inline base64 images.
+## Accessibility Requirements
+- It MUST pass all AXE checks.
+- It MUST follow all WCAG AA minimums, including focus management, color contrast, and ARIA attributes.
+### Components
+- Keep components small and focused on a single responsibility
+- Use `input()` and `output()` functions instead of decorators
+- Use `model()` for two-way bound properties with `[(prop)]` syntax instead of pairing `input()` with `output()`
+- Use `computed()` for derived state
+- Use `linkedSignal()` for state derived from multiple reactive sources that must stay synchronized
+- Prefer inline templates for small components
+- Prefer Signal Forms (`@angular/forms/signals`) for new forms. They are stable in Angular v22+ and provide signal-based state, type-safe field access, and schema-based validation
+- When not using Signal Forms, prefer Reactive forms instead of Template-driven ones
+- Do NOT use `ngClass`, use `class` bindings instead
+- Do NOT use `ngStyle`, use `style` bindings instead
+- When using external templates/styles, use paths relative to the component TS file.
+## State Management
+- Use signals for local component state
+- Use `computed()` for derived state
+- Keep state transformations pure and predictable
+- Do NOT use `mutate` on signals, use `update` or `set` instead
+## Templates
+- Keep templates simple and avoid complex logic
+- Use native control flow (`@if`, `@for`, `@switch`) instead of `*ngIf`, `*ngFor`, `*ngSwitch`
+- Use the async pipe to handle observables
+- Do not assume globals like (`new Date()`) are available.
+## Services
+- Design services around a single responsibility
+- Use the `providedIn: 'root'` option for singleton services
+- Prefer the `@Service` decorator over `@Injectable({providedIn: 'root'})` for new singleton services (Angular v22+)
+- Use the `inject()` function instead of constructor injection

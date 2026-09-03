@@ -74,8 +74,14 @@ Tema Material 3, formularios, botones, tabla ordenable, iconos, paginación, tar
 
 Uso de autenticación y autorización en el sistema, usando diferentes roles.
 
-## 13. Decisiones técnicas
+## 13. Uso de IA mediante instrucciones, skills y MCP
 
-[13 - Decisiones técnicas](13-decisiones-tecnicas.md)
+[13 - Uso de IA mediante instrucciones, skills y MCP](13-uso-IA-github-copilot.md)
+
+Uso de la IA en el proyecto, mediante Github Copilot y skills.
+
+## 14. Decisiones técnicas
+
+[14 - Decisiones técnicas](14-decisiones-tecnicas.md)
 
 Decisiones documentadas e interpretaciones basadas en la implementación.

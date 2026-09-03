@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { Router, provideRouter } from '@angular/router';
-import { routes } from '../../../../app.routes';
+import { mockApiInterceptor } from '../../../../core/interceptors/mock-api-interceptor-interceptor';
 
 import { ExpedienteDetallePage } from './expediente-detalle-page';
 
@@ -11,7 +12,10 @@ describe('ExpedienteDetallePage', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [ExpedienteDetallePage],
-      providers: [provideRouter(routes)],
+      providers: [
+        provideHttpClient(withInterceptors([mockApiInterceptor])),
+        provideRouter([{ path: 'expedientes', component: ExpedienteDetallePage }]),
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ExpedienteDetallePage);
@@ -23,14 +27,17 @@ describe('ExpedienteDetallePage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should show the expediente identified by the route input', () => {
+  it('should show the expediente identified by the route input', async () => {
     fixture.componentRef.setInput('numero', 'EXP-2026-0001');
+    fixture.detectChanges();
+    await fixture.whenStable();
 
     expect(component.expediente().titulo).toBe('Solicitud de licencia de actividad 1');
   });
 
   it('should prepare the expediente date for the datepicker', async () => {
     fixture.componentRef.setInput('numero', 'EXP-2026-0001');
+    fixture.detectChanges();
     await fixture.whenStable();
 
     expect(component.modeloEdicion().fechaAlta).toEqual(new Date(2026, 7, 12));

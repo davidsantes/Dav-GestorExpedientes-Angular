@@ -2,7 +2,6 @@ import { Routes } from '@angular/router';
 import { Login } from './features/auth/components/login';
 import { NotFoundPage } from './core/layout/not-found-page/not-found-page';
 import { authGuard } from './core/guards/auth-guard';
-import { rolGuard } from './core/guards/rol-guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },

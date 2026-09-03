@@ -58,25 +58,42 @@ Los skills disponibles actualmente en este repositorio son:
 | `angular-developer` | Desarrollo general de Angular, reactividad, formularios, routing, HTTP, testing y CLI. |
 | `angular-new-app` | Creación de nuevas aplicaciones Angular mediante Angular CLI. |
 | `angular-design-corporate` | Diseño corporativo, Angular Material, accesibilidad, tokens visuales y responsive. |
+| `angular-testing` | Estrategia de testing, selección de casos por riesgo, calidad de tests, documentación de pruebas y corrección de regresiones. |
 
 Se encuentran en:
 
 ````text
 .agents/skills/
-├── angular-developer/
-├── angular-new-app/
-└── angular-design-corporate/
-	├── SKILL.md
-	└── references/
-		├── accessibility.md
-		├── angular-patterns.md
-		├── design-system.md
-		└── responsive-design.md
+|-- angular-developer/
+|   |-- SKILL.md
+|   `-- references/
+|-- angular-new-app/
+|   `-- SKILL.md
+|-- angular-design-corporate/
+|   |-- SKILL.md
+|   `-- references/
+|       |-- accessibility.md
+|       |-- angular-patterns.md
+|       |-- design-system.md
+|       `-- responsive-design.md
+`-- angular-testing/
+    |-- SKILL.md
+    `-- references/
+        |-- angular-testing.md
+        |-- documentation.md
+        |-- test-quality.md
+        `-- testing-strategy.md
 ````
 
 Cada skill tiene un `SKILL.md` con las instrucciones principales. La carpeta `references/` contiene documentación detallada que el agente puede consultar cuando necesita profundizar en un tema.
 
 El skill corporativo se ha adaptado a la identidad visual del proyecto. Tiene en cuenta Angular Material 22, componentes accesibles, tablas, formularios, estados de interfaz y diseño responsive. Su objetivo no es sustituir a Angular Material, sino indicar cómo utilizar sus componentes dentro de una interfaz corporativa coherente.
+
+El skill de testing complementa al skill general de Angular. Debe utilizarse cuando la tarea consista en crear, revisar o corregir pruebas. Prioriza comportamiento observable y riesgo funcional por encima de generar specs mecánicos. Sus referencias separan estrategia, APIs de testing Angular, calidad de tests y documentación.
+
+`skills-lock.json` bloquea las skills instaladas desde fuentes externas. En el estado actual del repositorio aparecen bloqueadas `angular-developer` y `angular-new-app`, procedentes de `angular/skills`. Las skills personalizadas o mantenidas en el propio repositorio, como `angular-design-corporate` y `angular-testing`, viven en `.agents/skills/` y deben revisarse junto con el código cuando cambien las convenciones del proyecto.
+
+La estrategia concreta de pruebas del proyecto se documenta en [14 - Testing](14-testing.md).
 
 ### Instalar skills oficiales de Angular
 

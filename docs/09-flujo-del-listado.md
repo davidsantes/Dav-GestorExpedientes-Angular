@@ -114,6 +114,8 @@ Al pulsar buscar:
 buscar(): void {
   this.filtrosAplicados.emit({
     ...this.filtro,
+    fechaInicio: this.aFechaIso(this.fechaInicio),
+    fechaFin: this.aFechaIso(this.fechaFin),
   });
 }
 ```
@@ -143,16 +145,20 @@ paginaActual = computed(() => {
 });
 ```
 
-Al hacer click:
+Al hacer click en el paginador de Material:
 
 ```html
-<button (click)="navegarAPagina(paginaActual() + 1)">Siguiente</button>
+<mat-paginator
+  [pageIndex]="paginaActual() - 1"
+  [pageSize]="itemsPorPagina()"
+  (page)="navegarAPagina($event)">
+</mat-paginator>
 ```
 
 El componente emite:
 
 ```ts
-this.cambioPagina.emit(pagina);
+this.cambioPagina.emit(evento.pageIndex + 1);
 ```
 
 `ExpedientesPage.cambioPagina` actualiza `numeroPagina` en query params y conserva los filtros actuales.

@@ -63,8 +63,8 @@ Se usa para filtros, paginación y selección de expediente.
 
 ```ts
 loginModel = signal({
-  usuario: '',
-  password: '',
+  user: '',
+  pass: '',
 });
 ```
 
@@ -76,7 +76,7 @@ modeloEdicion = signal<ExpedienteForm>({
   titulo: '',
   estado: 'tramite',
   prioridad: 'media',
-  fechaAlta: '',
+  fechaAlta: null,
 });
 ```
 

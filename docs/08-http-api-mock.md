@@ -30,7 +30,7 @@ export class ExpedientesService {
 | Metodo | URL                        | Donde se define        | Uso real en la app                                               |
 | ------ | -------------------------- | ---------------------- | ---------------------------------------------------------------- |
 | `GET`  | `/api/expedientes`         | Servicio e interceptor | Usado por el listado con filtros y paginacion.                   |
-| `GET`  | `/api/expedientes/:numero` | Servicio e interceptor | Soportado, pero la página de detalle actual lee el mock directo. |
+| `GET`  | `/api/expedientes/:numero` | Servicio e interceptor | Usado por la página de detalle. |
 | `PUT`  | `/api/expedientes/:numero` | Servicio e interceptor | Usado al guardar la edición.                                     |
 | `POST` | `/api/auth/login` | AuthService e interceptor | Autentica y devuelve token, usuario y rol. |
 | `GET` | `/api/auth/perfil` | Interceptor de autenticación | Devuelve el perfil de la sesión mock. |
@@ -94,7 +94,7 @@ Si la petición no coincide, llama a `next(req)`.
 ## Diferencias entre listado, detalle y edición
 
 - Listado: usa `ExpedientesService.getExpedientes`, `HttpClient`, interceptor y respuesta paginada.
-- Detalle: `ExpedienteDetallePage` busca directamente en `EXPEDIENTES_MOCK` mediante `computed()`.
+- Detalle: `ExpedienteDetallePage` usa `rxResource()` para llamar a `ExpedientesService.getExpediente`, que termina en `GET /api/expedientes/:numero`.
 - Edición: carga el modelo desde el expediente encontrado en memoria y guarda con `ExpedientesService.actualizarExpediente`, que termina en `PUT /api/expedientes/:numero`.
 
 ## Flujo HTTP

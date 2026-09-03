@@ -67,7 +67,7 @@ Dentro de `features/expedientes` se distingue entre:
 - `getExpediente(numero)`
 - `actualizarExpediente(expediente)`
 
-El listado usa `getExpedientes`. La edición usa `actualizarExpediente`. El metodo `getExpediente` existe en el servicio y el interceptor lo soporta, aunque la página de detalle actual obtiene el expediente directamente desde `EXPEDIENTES_MOCK`.
+El listado usa `getExpedientes`. La página de detalle usa `getExpediente`. La edición usa `actualizarExpediente`.
 
 ## `models`
 

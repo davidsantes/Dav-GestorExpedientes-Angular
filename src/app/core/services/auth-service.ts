@@ -4,7 +4,7 @@ import { Observable, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { leerToken } from '../auth/token.util';
 
-const SESSION_KEY = 'tienda-online.sesion';
+const SESSION_KEY = 'gestor-expedientes.sesion';
 
 @Service()
 export class AuthService {
@@ -24,18 +24,36 @@ export class AuthService {
 
     logout(): void {
         this.session.set(null);
-        localStorage.removeItem(SESSION_KEY);
+        this.almacenamientoLocal()?.removeItem(SESSION_KEY);
     }
 
     private guardarSesion(response: LoginResponse): void {
         if (!leerToken(response.token)) throw new Error('Token inválido');
         this.session.set(response);
-        localStorage.setItem(SESSION_KEY, JSON.stringify(response));
+        this.almacenamientoLocal()?.setItem(SESSION_KEY, JSON.stringify(response));
     }
 
     private recuperarSesion(): LoginResponse | null {
-        const sesionAlmacenada = localStorage.getItem(SESSION_KEY);
+        const sesionAlmacenada = this.almacenamientoLocal()?.getItem(SESSION_KEY);
         if (!sesionAlmacenada) return null;
-        return JSON.parse(sesionAlmacenada);
+
+        try {
+            return JSON.parse(sesionAlmacenada) as LoginResponse;
+        } catch {
+            this.almacenamientoLocal()?.removeItem(SESSION_KEY);
+            return null;
+        }
+    }
+
+    private almacenamientoLocal(): Storage | null {
+        if (typeof window === 'undefined') {
+            return null;
+        }
+
+        try {
+            return window.localStorage ?? null;
+        } catch {
+            return null;
+        }
     }
 }

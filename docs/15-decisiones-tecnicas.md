@@ -76,15 +76,24 @@ esEdicion = computed(() => this.modo() === 'editar');
 
 Interpretación: reutilizar el componente permite compartir busqueda del expediente, modelo de edición y navegación.
 
-### Por qué la página de detalle lee el mock directo
+### Por qué la página de detalle usa el servicio
 
-El servicio y el interceptor soportan `GET /api/expedientes/:numero`, pero `ExpedienteDetallePage` obtiene el expediente con:
+El detalle sigue el mismo flujo HTTP que el listado:
 
 ```ts
-EXPEDIENTES_MOCK.find((expediente) => expediente.numero === numero);
+private recursoExpediente = rxResource({
+  params: () => this.numero(),
+  stream: ({ params: numero }) => {
+    if (!numero) {
+      return of(null);
+    }
+
+    return this.expedientesService.getExpediente(numero);
+  },
+});
 ```
 
-Interpretación: puede ser una decisión didáctica o una implementación pendiente de homogeneizar. La documentación lo refleja como diferencia real, no como recomendación.
+Interpretación: así la página no conoce `EXPEDIENTES_MOCK`; solo conoce el contrato del servicio. El mock queda encapsulado detrás de `HttpClient` y `mockApiInterceptor`, igual que ocurriría con un backend real.
 
 ### Por qué la paginación esta separada
 
@@ -95,5 +104,5 @@ Interpretación: esto permite reutilizar el componente con otros listados si apa
 ## Inconsistencias detectadas entre README anterior y código
 
 - El README anterior incluía un ejemplo de `imports: [ReactiveFormsModule]` para login, pero el código actual importa `FormField` de Signal Forms.
-- El README anterior explicaba `getExpediente` en el servicio; el método existe y el interceptor lo soporta, pero la página de detalle actual lee `EXPEDIENTES_MOCK` directamente.
-- El README anterior describia correctamente la paginación visual; en el código actual la paginación activa vive en `ListadoPaginacion`, mientras `ExpedientesListado` conserva outputs/métodos de paginación que no se conectan desde su plantilla.
+- El README anterior explicaba `getExpediente` en el servicio; el código actual ya lo usa desde la página de detalle mediante `rxResource()`.
+- El README anterior describia una estructura mas plana para `core`; el codigo actual organiza cabecera, pie y 404 bajo `core/layout`, y la autenticacion bajo `features/auth`.

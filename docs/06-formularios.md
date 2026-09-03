@@ -30,22 +30,24 @@ protected filtro: FiltrosExpediente = {
 };
 ```
 
-La plantilla usa `[(ngModel)]`:
+La plantilla usa `[(ngModel)]`. En numero, estado y prioridad el binding apunta a `filtro`; en las fechas apunta a propiedades `Date | null` para integrarse con `MatDatepicker`:
 
 ```html
 <input name="numero" type="search" [(ngModel)]="filtro.numero" />
 <select name="estado" [(ngModel)]="filtro.estado"></select>
 <select name="prioridad" [(ngModel)]="filtro.prioridad"></select>
-<input name="fechaInicio" type="date" [(ngModel)]="filtro.fechaInicio" />
-<input name="fechaFin" type="date" [(ngModel)]="filtro.fechaFin" />
+<input name="fechaInicio" [matDatepicker]="selectorFechaInicio" [(ngModel)]="fechaInicio" />
+<input name="fechaFin" [matDatepicker]="selectorFechaFin" [(ngModel)]="fechaFin" />
 ```
 
-Al buscar, el componente emite una copia de los filtros:
+Al buscar, el componente emite una copia de los filtros y convierte las fechas a `YYYY-MM-DD`:
 
 ```ts
 buscar(): void {
   this.filtrosAplicados.emit({
     ...this.filtro,
+    fechaInicio: this.aFechaIso(this.fechaInicio),
+    fechaFin: this.aFechaIso(this.fechaFin),
   });
 }
 ```

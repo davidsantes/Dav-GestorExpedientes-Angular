@@ -81,16 +81,22 @@ totalPaginas = computed(() => {
 
 ## Signals en detalle
 
-`ExpedienteDetallePage` usa `computed()` para buscar el expediente actual:
+`ExpedienteDetallePage` usa `rxResource()` para cargar el expediente actual mediante `ExpedientesService.getExpediente(numero)`:
 
 ```ts
-expediente: Signal<Expediente> = computed(() => {
-  const numero = this.numero();
-  return EXPEDIENTES_MOCK.find((expediente) => expediente.numero === numero) || ...
+private recursoExpediente = rxResource({
+  params: () => this.numero(),
+  stream: ({ params: numero }) => {
+    if (!numero) {
+      return of(null);
+    }
+
+    return this.expedientesService.getExpediente(numero);
+  },
 });
 ```
 
-Y `effect()` para sincronizar el modelo de edición cuando hay expediente:
+Después deriva un expediente vacío cuando todavía no hay datos o no se encuentra, y usa `effect()` para sincronizar el modelo de edición cuando hay expediente:
 
 ```ts
 effect(() => {

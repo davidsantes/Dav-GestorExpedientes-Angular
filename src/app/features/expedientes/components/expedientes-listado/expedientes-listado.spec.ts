@@ -2,6 +2,7 @@ import { signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AuthService } from '../../../../core/services/auth-service';
+import { Expediente } from '../../models/expediente.interface';
 import { ExpedientesListado } from './expedientes-listado';
 
 describe('ExpedientesListado', () => {
@@ -36,25 +37,19 @@ describe('ExpedientesListado', () => {
     expect(columnas()).toContain('opciones');
   });
 
-  it('should emit the selected page number', () => {
-    let pagina: number | undefined;
-    component.paginaSeleccionada.subscribe((valor) => pagina = valor);
+  it('emite el expediente seleccionado', () => {
+    const expediente = {
+      numero: 'EXP-2026-0001',
+      titulo: 'Solicitud de licencia',
+      estado: 'tramite',
+      prioridad: 'media',
+      fechaAlta: '2026-08-01',
+    } satisfies Expediente;
+    let seleccionado: Expediente | undefined;
+    component.expedienteSeleccionado.subscribe((valor) => seleccionado = valor);
 
-    component.seleccionarPagina(2);
+    component.seleccionar(expediente);
 
-    expect(pagina).toBe(2);
-  });
-
-  it('should emit previous and next page events', () => {
-    let paginaAnteriorEmitida = false;
-    let paginaSiguienteEmitida = false;
-    component.paginaAnterior.subscribe(() => paginaAnteriorEmitida = true);
-    component.paginaSiguiente.subscribe(() => paginaSiguienteEmitida = true);
-
-    component.irAPaginaAnterior();
-    component.irAPaginaSiguiente();
-
-    expect(paginaAnteriorEmitida).toBe(true);
-    expect(paginaSiguienteEmitida).toBe(true);
+    expect(seleccionado).toBe(expediente);
   });
 });

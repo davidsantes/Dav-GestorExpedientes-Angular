@@ -75,13 +75,14 @@ ng generate service nombre-servicio
 ```text
 src/app/
 |-- core/
-|   |-- footer/
-|   |-- header/
+|   |-- auth/
+|   |-- guards/
 |   |-- interceptors/
-|   `-- not-found-page/
+|   |-- layout/
+|   `-- services/
 |-- features/
 |   |-- expedientes/
-|   `-- login/
+|   `-- auth/
 |-- shared/
 |   `-- components/
 |-- app.config.ts
@@ -105,3 +106,6 @@ La documentación técnica y didáctica esta en [docs/README.md](docs/README.md)
 - [Material Design: reglas y sistema de diseño](https://m3.material.io/)
 - [Angular Material: cómo aplicar Material Design](https://material.angular.dev/)
 - [Angular Material: Iconos](https://www.angularjswiki.com/angular/angular-material-icons-list-mat-icon-list/)
+- [Angular testing](https://angular.dev/guide/testing)
+- [Vitest](https://vitest.dev/)
+- [jsdom](https://github.com/jsdom/jsdom)

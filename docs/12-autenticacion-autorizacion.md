@@ -77,7 +77,7 @@ readonly esEditor = this.authService.esUsuarioEditor;
 
 ## Persistencia de la sesión
 
-La sesión se guarda bajo la clave `tienda-online.sesion` con `localStorage`:
+La sesión se guarda bajo la clave `gestor-expedientes.sesion` con `localStorage`:
 
 ```ts
 localStorage.setItem(SESSION_KEY, JSON.stringify(response));
@@ -219,5 +219,5 @@ Para practicar el flujo completo:
 
 1. Inicia sesión como `user` y comprueba que puedes buscar y filtrar, pero no ves el botón de consulta ni puedes abrir un detalle por URL.
 2. Inicia sesión como `admin` y comprueba que ves el botón de consulta y puedes acceder a detalle y edición.
-3. Borra `tienda-online.sesion` desde Local Storage y solicita datos: la respuesta `401` debe cerrar la sesión y llevarte al login con `returnUrl`.
+3. Borra `gestor-expedientes.sesion` desde Local Storage y solicita datos: la respuesta `401` debe cerrar la sesión y llevarte al login con `returnUrl`.
 4. Comprueba que las respuestas `403` de la API mock se producen para permisos insuficientes. Como mejora, implementa un aviso accesible para ese caso.

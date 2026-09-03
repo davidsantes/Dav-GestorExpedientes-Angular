@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { Router, provideRouter } from '@angular/router';
 
-import { routes } from '../../../../app.routes';
-import { EXPEDIENTES_MOCK } from '../../data/expedientes.mock';
+import { mockApiInterceptor } from '../../../../core/interceptors/mock-api-interceptor-interceptor';
 import { ExpedientesPage } from './expedientes-page';
 
 describe('ExpedientesPage', () => {
@@ -12,7 +12,13 @@ describe('ExpedientesPage', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [ExpedientesPage],
-      providers: [provideRouter(routes)],
+      providers: [
+        provideHttpClient(withInterceptors([mockApiInterceptor])),
+        provideRouter([
+          { path: 'expedientes', component: ExpedientesPage },
+          { path: 'expedientes/:numero', component: ExpedientesPage },
+        ]),
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ExpedientesPage);
@@ -24,11 +30,11 @@ describe('ExpedientesPage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should show all expedientes without filters', () => {
+  it('should show the first page without filters', () => {
     fixture.detectChanges();
 
     expect(fixture.nativeElement.querySelectorAll('tbody tr')).toHaveLength(
-      EXPEDIENTES_MOCK.length,
+      5,
     );
   });
 

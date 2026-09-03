@@ -12,7 +12,15 @@ La dependencia se añadió con Angular CLI:
 ng add @angular/material
 ```
 
-El archivo `src/material-theme.scss` se registra antes de `src/styles.css` en `angular.json`. Define un tema Material 3 claro con paleta roja primaria y cian terciaria:
+En el estado actual del proyecto, la instalación queda reflejada en estos puntos:
+
+- `package.json` incluye `@angular/material` y `@angular/cdk` en `dependencies`.
+- `angular.json` registra `src/material-theme.scss` antes de `src/styles.css` en `projects.gestor-expedientes.architect.build.options.styles`.
+- `src/material-theme.scss` importa `@angular/material` con Sass y define el tema Material 3.
+- `src/index.html` carga la fuente de iconos de Material mediante Google Fonts.
+- Cada componente standalone importa solo los módulos Material que usa.
+
+El archivo `src/material-theme.scss` define un tema Material 3 claro con paleta roja primaria y cian terciaria:
 
 ```scss
 @use '@angular/material' as mat;
@@ -32,6 +40,8 @@ html {
 ```
 
 Los tokens propios de `src/styles.css` complementan ese tema con los colores institucionales de la aplicación. Los componentes Material reciben sus colores y estados desde el tema.
+
+No hay una configuración global de `@angular/animations` en el código actual. Si se incorporan componentes o patrones que dependan explícitamente de animaciones de Angular, esa dependencia y sus providers deberán añadirse y documentarse en el mismo cambio.
 
 El comando siguiente puede generar paletas personalizadas a partir de un color:
 
@@ -68,7 +78,7 @@ El formulario de inicio de sesión usa `mat-card`, `mat-form-field`, `matInput` 
 
 	<mat-form-field appearance="outline">
 		<mat-label>Usuario</mat-label>
-		<input id="usuario" matInput type="text" [formField]="loginForm.usuario">
+		<input id="usuario" matInput type="text" [formField]="loginForm.user">
 	</mat-form-field>
 
 	<button matButton="filled" type="button" [disabled]="loginForm().invalid()">

@@ -1,4 +1,5 @@
-import { Component, Signal, computed, effect, inject, input, signal } from '@angular/core';
+import { Component, computed, effect, inject, input, signal } from '@angular/core';
+import { rxResource } from '@angular/core/rxjs-interop';
 import { form, FormField, required } from '@angular/forms/signals';
 import { MatButtonModule } from '@angular/material/button';
 import { MatNativeDateModule } from '@angular/material/core';
@@ -7,12 +8,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { Router } from '@angular/router';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, of } from 'rxjs';
 import { Expediente } from '../../models/expediente.interface';
 import { ExpedienteForm } from '../../models/expediente-form.interface';
 import { ESTADOS_EXPEDIENTE } from '../../models/estado-expediente.type';
 import { PRIORIDADES_EXPEDIENTE } from '../../models/prioridad-expediente.type';
-import { EXPEDIENTES_MOCK } from '../../data/expedientes.mock';
 import { ExpedientesService } from '../../services/expedientes-service';
 
 @Component({
@@ -31,17 +31,25 @@ export class ExpedienteDetallePage {
   private readonly router = inject(Router);
   private readonly expedientesService = inject(ExpedientesService);
 
-  expediente: Signal<Expediente> = computed(() => {
-    const numero = this.numero();
-    return (
-      EXPEDIENTES_MOCK.find((expediente) => expediente.numero === numero) || {
-        numero: '',
-        titulo: '',
-        estado: 'tramite',
-        prioridad: 'media',
-        fechaAlta: '',
+  private recursoExpediente = rxResource({
+    params: () => this.numero(),
+    stream: ({ params: numero }) => {
+      if (!numero) {
+        return of(null);
       }
-    );
+
+      return this.expedientesService.getExpediente(numero);
+    },
+  });
+
+  expediente = computed<Expediente>(() => {
+    return this.recursoExpediente.value() ?? {
+      numero: '',
+      titulo: '',
+      estado: 'tramite',
+      prioridad: 'media',
+      fechaAlta: '',
+    };
   });
 
   esEdicion = computed(() => this.modo() === 'editar');

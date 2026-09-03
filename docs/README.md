@@ -80,8 +80,14 @@ Uso de autenticación y autorización en el sistema, usando diferentes roles.
 
 Uso de la IA en el proyecto, mediante Github Copilot y skills.
 
-## 14. Decisiones técnicas
+## 14. Testing
 
-[14 - Decisiones técnicas](14-decisiones-tecnicas.md)
+[14 - Testing](14-testing.md)
+
+Estrategia de pruebas, Vitest, jsdom, TestBed, HTTP, guards, signals y flujo recomendado con IA.
+
+## 15. Decisiones técnicas
+
+[15 - Decisiones técnicas](15-decisiones-tecnicas.md)
 
 Decisiones documentadas e interpretaciones basadas en la implementación.

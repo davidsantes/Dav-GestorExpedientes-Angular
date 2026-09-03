@@ -29,9 +29,6 @@ export class ExpedientesListado {
   private readonly expedientesOriginales = signal<Expediente[]>([]);
 
   expedienteSeleccionado = output<Expediente>();
-  paginaAnterior = output<void>();
-  paginaSeleccionada = output<number>();
-  paginaSiguiente = output<void>();
 
   seleccionar(expediente: Expediente): void {
     this.expedienteSeleccionado.emit(expediente);
@@ -53,20 +50,5 @@ export class ExpedientesListado {
         return multiplicador * comparador.compare(expedienteA[orden.active as keyof Expediente], expedienteB[orden.active as keyof Expediente]);
       }),
     );
-  }
-
-  seleccionarPagina(pagina: number): void {
-    console.log('Página seleccionada:', pagina);
-    this.paginaSeleccionada.emit(pagina);
-  }
-
-  irAPaginaAnterior(): void {
-    console.log('Ir a la página anterior');
-    this.paginaAnterior.emit();
-  }
-
-  irAPaginaSiguiente(): void {
-    console.log('Ir a la página siguiente');
-    this.paginaSiguiente.emit();
   }
 }

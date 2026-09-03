@@ -38,44 +38,23 @@ interface Permiso {
 }
 
 const PERMISOS: Permiso[] = [
-  // Listado/búsqueda de productos: ambos roles
+  // Listado/busqueda de expedientes: ambos roles
   {
-    patron: /^\/products(?:\/search)?(?:\?.*)?$/,
+    patron: /^\/api\/expedientes(?:\?.*)?$/,
     metodos: ['GET'],
     roles: ['LECTOR', 'EDITOR'],
   },
 
-  // Detalle de producto: solo EDITOR
+  // Detalle de expediente: solo EDITOR
   {
-    patron: /^\/products\/\d+(?:\?.*)?$/,
+    patron: /^\/api\/expedientes\/[^/]+(?:\?.*)?$/,
     metodos: ['GET'],
     roles: ['EDITOR'],
   },
 
-  // Clientes: listado/búsqueda solo EDITOR
+  // Escritura de expedientes: solo EDITOR
   {
-    patron: /^\/users(?:\/search)?(?:\?.*)?$/,
-    metodos: ['GET'],
-    roles: ['EDITOR'],
-  },
-
-  // Detalle cliente: solo EDITOR
-  {
-    patron: /^\/users\/\d+(?:\?.*)?$/,
-    metodos: ['GET'],
-    roles: ['EDITOR'],
-  },
-
-  // Escritura de productos: solo EDITOR
-  {
-    patron: /^\/products(?:\/\d+)?(?:\?.*)?$/,
-    metodos: ['POST', 'PUT', 'PATCH', 'DELETE'],
-    roles: ['EDITOR'],
-  },
-
-  // Escritura de clientes: solo EDITOR
-  {
-    patron: /^\/users(?:\/\d+)?(?:\?.*)?$/,
+    patron: /^\/api\/expedientes(?:\/[^/]+)?(?:\?.*)?$/,
     metodos: ['POST', 'PUT', 'PATCH', 'DELETE'],
     roles: ['EDITOR'],
   },

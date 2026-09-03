@@ -16,7 +16,7 @@ El componente raíz `App` define el marco comun:
 </div>
 ```
 
-`Header` y `Footer` viven en `src/app/core`. El contenido central cambia según la ruta activa mediante `RouterOutlet`.
+`Header` y `Footer` viven en `src/app/core/layout`. El contenido central cambia según la ruta activa mediante `RouterOutlet`.
 
 ## Páginas existentes
 
